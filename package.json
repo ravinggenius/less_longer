@@ -1,15 +1,15 @@
 {
   "name": "ravinggenius-less_longer-express",
   "version": "1.0.0",
-  "description": "",
+  "description": "Self-hosted URL shortening service",
+  "author": "Thomas Ingram",
+  "license": "ISC",
+  "keywords": [],
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "^4.16.2"
   }
