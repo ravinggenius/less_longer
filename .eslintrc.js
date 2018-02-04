@@ -36,6 +36,10 @@ module.exports = {
 			'newlines-between': 'always-and-inside-groups'
 		} ],
 
+		'no-unused-vars': [ 'error', {
+			varsIgnorePattern: '^_'
+		} ],
+
 		'quotes': [ 'error','single' ],
 
 		'semi': [ 'error','always' ]
