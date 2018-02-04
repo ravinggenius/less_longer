@@ -12,6 +12,24 @@ For local development `./.env-development`/`./.env-test` files are recommended f
 
 ### Development
 
+Lint and tests should pass without errors or warnings on each commit:
+
+```shell
+npm run lint
+```
+
+Run tests:
+
+```shell
+npm run test
+```
+
+Also:
+
+```shell
+npm run test:watch
+```
+
 Create migration:
 
 ```shell
