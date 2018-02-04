@@ -8,11 +8,17 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
+    "migrate": "node-pg-migrate --config-file source/db/config.js --migrations-dir source/db/migrations",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "express": "^4.16.2"
+    "conf_conf": "^2.0.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "node-pg-migrate": "^2.17.0",
+    "pg": "^7.4.1",
+    "pg-promise": "^7.4.0"
   },
   "devDependencies": {
     "eslint": "^4.16.0",
