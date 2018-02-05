@@ -1,7 +1,7 @@
 const path = require('path');
 const pgp = require('pg-promise');
 
-const config = require('../../config');
+const config = require('../config');
 
 const { QueryFile } = pgp;
 

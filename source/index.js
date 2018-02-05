@@ -3,7 +3,7 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
-const config = require('../config');
+const config = require('./config');
 
 const loginRoutes = require('./logins/routes');
 const slugRoutes = require('./slugs/routes');

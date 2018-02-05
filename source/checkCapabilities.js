@@ -2,8 +2,7 @@ const express = require('express');
 const jwt = require('express-jwt');
 const buildPermissions = require('express-jwt-permissions');
 
-const config = require('../config');
-
+const config = require('./config');
 const user = require('./users/model');
 
 const guard = buildPermissions();

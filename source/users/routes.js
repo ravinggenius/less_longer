@@ -1,8 +1,7 @@
 const express = require('express');
 
-const config = require('../../config');
-
 const protect = require('../checkCapabilities');
+const config = require('../config');
 
 const user = require('./model');
 

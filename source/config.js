@@ -1,8 +1,9 @@
 const { configure } = require('conf_conf');
 const { config } = require('dotenv');
+const path = require('path');
 
 config({
-	path: `${__dirname}/.env-${process.env.NODE_ENV || 'development'}`
+	path: path.join(__dirname, '..', `.env-${process.env.NODE_ENV || 'development'}`)
 });
 
 module.exports = configure(process.env, {
