@@ -10,8 +10,8 @@
     "lint": "eslint --ignore-path .gitignore .",
     "migrate": "node-pg-migrate --config-file source/db/config.js --migrations-dir source/db/migrations",
     "start": "node index.js",
-    "test": "NODE_ENVIRONMENT=test jest --coverage",
-    "test:watch": "NODE_ENVIRONMENT=test jest --watch"
+    "test": "NODE_ENV=test jest --coverage",
+    "test:watch": "NODE_ENV=test jest --watch"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
