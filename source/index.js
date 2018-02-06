@@ -5,6 +5,7 @@ const morgan = require('morgan');
 
 const config = require('./config');
 
+const expanderRoutes = require('./expander/routes');
 const loginRoutes = require('./logins/routes');
 const slugRoutes = require('./slugs/routes');
 const userRoutes = require('./users/routes');
@@ -19,7 +20,7 @@ if (config.logFormat !== 'disabled') {
 
 server.get('/', (req, res) => res.redirect('/s'));
 
-server.use(require('./slugs/redirector'));
+server.use(expanderRoutes);
 
 server.use(bodyParser.json({
 	strict: true
