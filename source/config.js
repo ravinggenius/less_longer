@@ -16,12 +16,10 @@ module.exports = configure(process.env, {
 
 	hashStrength: {
 		filter: _ => Number.parseInt(_, 10),
-		ifUndefined: 12
+		ifUndefined: '12'
 	},
 
-	logFormat: {
-		ifUndefined: (process.env.NODE_ENV === 'production') ? 'combined' : 'dev'
-	},
+	logFormat: { ifUndefined: 'dev' },
 
 	nodeEnv: { ifUndefined: 'development' },
 
