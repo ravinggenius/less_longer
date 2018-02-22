@@ -1,4 +1,4 @@
-const { db, loadQuery } = require('../db');
+const { db, loadQuery } = require('../../db');
 
 const sql = {
 	findByCode: loadQuery('slugs/queries/findByCode.sql')

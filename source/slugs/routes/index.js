@@ -1,6 +1,6 @@
 const express = require('express');
 
-const protect = require('../checkCapabilities');
+const protect = require('../../checkCapabilities');
 
 const routes = express.Router();
 

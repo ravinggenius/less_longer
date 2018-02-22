@@ -1,6 +1,6 @@
 const express = require('express');
 
-const slug = require('../slugs/model');
+const slug = require('../../slugs/model');
 
 const routes = express.Router();
 

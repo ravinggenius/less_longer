@@ -1,9 +1,9 @@
 const express = require('express');
 
-const protect = require('../checkCapabilities');
-const config = require('../config');
+const protect = require('../../checkCapabilities');
+const config = require('../../config');
 
-const user = require('./model');
+const user = require('../model');
 
 const routes = express.Router();
 
