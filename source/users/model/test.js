@@ -24,4 +24,22 @@ describe('user model', () => {
 			});
 		});
 	});
+
+	describe('create()', () => {
+		test('resolves to new user id', async () => {
+			const id = await user.create('foo', 'bar');
+			const pattern = /[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}/;
+
+			expect(id).toMatch(pattern);
+		});
+
+		test('hashes the password', async () => {
+			const password = 'bar';
+			const id = await user.create('foo', 'bar');
+			const attrs = await db.one('SELECT * FROM users WHERE id = $<id>', { id });
+
+			expect(attrs).not.toHaveProperty('password');
+			expect(attrs.hashword).not.toEqual(password);
+		});
+	});
 });
