@@ -40,7 +40,7 @@ module.exports = {
 			varsIgnorePattern: '^_'
 		} ],
 
-		'quotes': [ 'error','single' ],
+		'quotes': [ 'error', 'single' ],
 
 		'semi': [ 'error','always' ]
 	}
