@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const expressReact = require('express-react-views');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
@@ -11,6 +12,25 @@ const slugRoutes = require('./slugs/routes');
 const userRoutes = require('./users/routes');
 
 const server = express();
+
+server.engine('jsx', expressReact.createEngine({
+	babel: {
+		only: `${__dirname}/**/*.jsx`,
+		presets: [
+			'react',
+			[
+				'env',
+				{
+					targets: {
+						node: 'current'
+					}
+				}
+			]
+		]
+	}
+}));
+
+server.set('view engine', 'jsx');
 
 server.use(helmet());
 

@@ -30,5 +30,9 @@ module.exports = configure(process.env, {
 
 	sessionSecret: {
 		ifUndefined: 'replace for production'
+	},
+
+	title: {
+		ifUndefined: 'Less Longer'
 	}
 });

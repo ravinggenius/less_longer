@@ -1,10 +1,13 @@
 const express = require('express');
+const path = require('path');
 
 const protect = require('../../checkCapabilities');
 
 const ensureUserCreatable = require('./ensureUserCreatable');
 
-const routes = express.Router();
+const routes = express();
+
+routes.set('views', path.join(__dirname, 'views'));
 
 routes.get('/', protect('user:read'), (req, res, next) => {
 	res.format({
@@ -22,7 +25,7 @@ routes.put('/', protect('user:write'), (req, res, next) => {
 
 routes.get('/new', ensureUserCreatable, (req, res) => {
 	res.format({
-		html: () => res.send('GET `/u/new`'),
+		html: () => res.render('new'),
 		json: () => res.status(406).end()
 	});
 });
