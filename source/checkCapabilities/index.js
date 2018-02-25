@@ -16,7 +16,11 @@ module.exports = (...capabilities) => {
 		if (count === 0) {
 			res.format({
 				html: () => res.redirect('/u/new'),
-				json: () => res.status(401).end()
+				json: () => res.status(401).json({
+					error: {
+						message: 'No users available'
+					}
+				})
 			});
 		} else {
 			next();
@@ -48,12 +52,12 @@ module.exports = (...capabilities) => {
 		if (error && (error.code === 'credentials_required')) {
 			res.format({
 				html: () => res.redirect(`/l?resume=${req.originalUrl}`),
-				json: () => res.send(error)
+				json: () => res.json(error)
 			});
 		} else if (error) {
 			res.format({
-				html: () => null,
-				json: () => res.send(error)
+				html: () => next,
+				json: () => res.json(error)
 			});
 		} else {
 			next();
@@ -62,9 +66,9 @@ module.exports = (...capabilities) => {
 
 	routes.use(guard.check(...capabilities), (error, req, res, next) => {
 		if (error) {
-			res.format({
-				html: () => null,
-				json: () => res.send(error)
+			res.status(403).format({
+				html: next,
+				json: () => res.json(error)
 			});
 		} else {
 			next();

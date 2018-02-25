@@ -17,10 +17,10 @@ routes.get('/', ensureUnAuthenticated, (req, res) => {
 	});
 });
 
-routes.post('/', (req, res) => {
+routes.post('/', (req, res, next) => {
 	res.format({
 		html: () => res.redirect(req.query.resume || '/'),
-		json: () => null
+		json: next
 	});
 });
 

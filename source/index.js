@@ -34,6 +34,13 @@ server.use('/l', loginRoutes);
 server.use('/s', slugRoutes);
 server.use('/u', userRoutes);
 
-server.use((req, res) => res.status(404));
+server.use((req, res) => res.format({
+	html: () => res.sendStatus(404),
+	json: () => res.status(404).json({
+		error: {
+			message: 'Not found'
+		}
+	})
+}));
 
 module.exports = server;
