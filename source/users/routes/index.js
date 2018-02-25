@@ -1,23 +1,10 @@
 const express = require('express');
 
 const protect = require('../../checkCapabilities');
-const config = require('../../config');
 
-const user = require('../model');
+const ensureUserCreatable = require('./ensureUserCreatable');
 
 const routes = express.Router();
-
-const ensureUserCreatable = async (req, res, next) => {
-	const count = await user.count();
-
-	if (count === 0) {
-		next();
-	} else if (config.allowMultipleUsers) {
-		next();
-	} else {
-		res.status(403);
-	}
-};
 
 routes.get('/', protect('user:read'), (req, res, next) => {
 	res.format({
