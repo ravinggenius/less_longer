@@ -39,7 +39,7 @@ module.exports = (...capabilities) => {
 				}
 			}
 
-			const { bearerToken } = req.cookies || {};
+			const { bearerToken } = req.cookies;
 
 			if (bearerToken) {
 				return bearerToken;

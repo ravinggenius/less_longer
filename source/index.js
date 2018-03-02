@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const expressReact = require('express-react-views');
 const helmet = require('helmet');
@@ -41,6 +42,8 @@ if (config.logFormat !== 'disabled') {
 server.get('/', (req, res) => res.redirect('/s'));
 
 server.use(expanderRoutes);
+
+server.use(cookieParser(config.cookieSecret));
 
 server.use(bodyParser.json({
 	strict: true

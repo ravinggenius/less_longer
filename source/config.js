@@ -12,6 +12,10 @@ module.exports = configure(process.env, {
 		ifUndefined: 'false'
 	},
 
+	cookieSecret: {
+		ifUndefined: 'replace for production'
+	},
+
 	databaseUrl: {},
 
 	hashStrength: {
