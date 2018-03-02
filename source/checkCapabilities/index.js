@@ -5,7 +5,9 @@ const buildPermissions = require('express-jwt-permissions');
 const config = require('../config');
 const User = require('../users/model');
 
-const guard = buildPermissions();
+const guard = buildPermissions({
+	permissionsProperty: 'capabilities'
+});
 
 module.exports = (...capabilities) => {
 	const routes = express.Router();
