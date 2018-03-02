@@ -2,12 +2,18 @@ const express = require('express');
 
 const protect = require('../../checkCapabilities');
 
+const Slug = require('../model');
+
 const routes = express.Router();
 
-routes.get('/', protect('slug:index'), (req, res, next) => {
+routes.get('/', protect('slug:index'), async (req, res) => {
+	const slugs = await Slug.list();
+
 	res.format({
 		html: () => res.send('GET `/s`'),
-		json: next
+		json: () => res.json({
+			data: slugs
+		})
 	});
 });
 
