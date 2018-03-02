@@ -1,9 +1,9 @@
 const config = require('../../config');
 
-const user = require('../model');
+const User = require('../model');
 
 const ensureUserCreatable = async (req, res, next) => {
-	const count = await user.count();
+	const count = await User.count();
 
 	if (count === 0) {
 		next();

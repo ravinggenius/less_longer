@@ -3,7 +3,7 @@ const jwt = require('express-jwt');
 const buildPermissions = require('express-jwt-permissions');
 
 const config = require('../config');
-const user = require('../users/model');
+const User = require('../users/model');
 
 const guard = buildPermissions();
 
@@ -11,7 +11,7 @@ module.exports = (...capabilities) => {
 	const routes = express.Router();
 
 	routes.use(async (req, res, next) => {
-		const count = await user.count();
+		const count = await User.count();
 
 		if (count === 0) {
 			res.format({
