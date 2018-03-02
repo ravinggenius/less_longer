@@ -19,6 +19,10 @@ module.exports = configure(process.env, {
 		ifUndefined: '12'
 	},
 
+	jwtSecret: {
+		ifUndefined: 'replace for production'
+	},
+
 	logFormat: { ifUndefined: 'dev' },
 
 	nodeEnv: { ifUndefined: 'development' },
@@ -26,10 +30,6 @@ module.exports = configure(process.env, {
 	port: {
 		filter: _ => Number.parseInt(_, 10),
 		ifUndefined: '3000'
-	},
-
-	sessionSecret: {
-		ifUndefined: 'replace for production'
 	},
 
 	title: {

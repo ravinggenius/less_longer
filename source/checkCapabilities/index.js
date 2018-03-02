@@ -47,7 +47,7 @@ module.exports = (...capabilities) => {
 
 			return null;
 		},
-		secret: config.sessionSecret
+		secret: config.jwtSecret
 	}), (error, req, res, next) => {
 		if (error && (error.code === 'credentials_required')) {
 			res.format({
