@@ -32,9 +32,9 @@ module.exports = (...capabilities) => {
 			const { authorization } = req.headers;
 
 			if (authorization) {
-				const [ _, token ] = authorization.split(' ');
+				const [ type, token ] = authorization.split(' ');
 
-				if (token) {
+				if ((type.toLowerCase() === 'bearer') && token) {
 					return token;
 				}
 			}
