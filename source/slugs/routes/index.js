@@ -3,10 +3,11 @@ const express = require('express');
 const protect = require('../../checkCapabilities');
 
 const Slug = require('../model');
+const SLUG = require('../model/capabilities');
 
 const routes = express.Router();
 
-routes.get('/', protect('slug:index'), async (req, res) => {
+routes.get('/', protect(SLUG.index), async (req, res) => {
 	const slugs = await Slug.list();
 
 	res.format({
@@ -17,21 +18,21 @@ routes.get('/', protect('slug:index'), async (req, res) => {
 	});
 });
 
-routes.post('/', protect('slug:write'), (req, res) => {
+routes.post('/', protect(SLUG.write), (req, res) => {
 	res.format({
 		html: () => res.redirect('/s/:slugCode'),
 		json: () => res.status(204).end()
 	});
 });
 
-routes.get('/:slugCode', protect('slug:read'), (req, res, next) => {
+routes.get('/:slugCode', protect(SLUG.read), (req, res, next) => {
 	res.format({
 		html: () => res.send('GET `/s/:slugCode`'),
 		json: next
 	});
 });
 
-routes.put('/:slugCode', protect('slug:write'), (req, res, next) => {
+routes.put('/:slugCode', protect(SLUG.write), (req, res, next) => {
 	res.format({
 		html: () => res.redirect('/s/:slugCode'),
 		json: next

@@ -2,6 +2,9 @@ const express = require('express');
 const path = require('path');
 
 const protect = require('../../checkCapabilities');
+const SLUG = require('../../slugs/model/capabilities');
+
+const USER = require('../model/capabilities');
 
 const ensureUserCreatable = require('./ensureUserCreatable');
 
@@ -9,14 +12,14 @@ const routes = express();
 
 routes.set('views', path.join(__dirname, 'views'));
 
-routes.get('/', protect('user:read'), (req, res, next) => {
+routes.get('/', protect(USER.read), (req, res, next) => {
 	res.format({
 		html: () => res.send('GET `/u`'),
 		json: next
 	});
 });
 
-routes.put('/', protect('user:write'), (req, res, next) => {
+routes.put('/', protect(USER.write), (req, res, next) => {
 	res.format({
 		html: () => res.redirect('/u'),
 		json: next
