@@ -7,11 +7,11 @@ const routes = express.Router();
 routes.get('/:slugCode', async (req, res, next) => {
 	const { slugCode } = req.params;
 
-	try {
-		const url = await slug.loadUrl(slugCode);
+	const url = await slug.loadUrl(slugCode);
 
+	if (url) {
 		res.redirect(url);
-	} catch (error) {
+	} else {
 		next();
 	}
 });

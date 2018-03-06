@@ -8,9 +8,9 @@ const sql = {
 module.exports = {
 	list: () => db.manyOrNone(sql.list),
 
-	loadUrl: (code) => db.one(
+	loadUrl: (code) => db.oneOrNone(
 		sql.findByCode,
 		{ code },
-		({ url }) => url
+		slug => slug ? slug.url : null
 	),
 };
