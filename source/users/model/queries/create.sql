@@ -1,3 +1,3 @@
-INSERT INTO users (username, hashword)
-VALUES ($<username>, $<hashword>)
+INSERT INTO users (username, hashword, capabilities)
+VALUES ($<username>, $<hashword>, $<capabilities>)
 RETURNING id;

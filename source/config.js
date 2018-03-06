@@ -38,5 +38,16 @@ module.exports = configure(process.env, {
 
 	title: {
 		ifUndefined: 'Less Longer'
+	},
+
+	tokenExpirationSeconds: {
+		filter: _ => Number.parseFloat(_, 10),
+		ifUndefined: '3600'
+	},
+
+	useSecureCookies: {
+		filter: _ => _ === 'true',
+		set: [ 'true', 'false' ],
+		ifUndefined: 'false'
 	}
 });

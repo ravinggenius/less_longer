@@ -24,6 +24,7 @@
     "express-jwt-permissions": "^1.0.0",
     "express-react-views": "^0.10.5",
     "helmet": "^3.10.0",
+    "jsonwebtoken": "^8.1.1",
     "morgan": "^1.9.0",
     "node-pg-migrate": "^2.17.0",
     "pg": "^7.4.1",

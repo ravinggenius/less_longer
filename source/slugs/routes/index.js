@@ -1,17 +1,20 @@
 const express = require('express');
+const path = require('path');
 
 const protect = require('../../checkCapabilities');
 
 const Slug = require('../model');
 const SLUG = require('../model/capabilities');
 
-const routes = express.Router();
+const routes = express();
+
+routes.set('views', path.join(__dirname, 'views'));
 
 routes.get('/', protect(SLUG.index), async (req, res) => {
 	const slugs = await Slug.list();
 
 	res.format({
-		html: () => res.send('GET `/s`'),
+		html: () => res.render('index', { slugs }),
 		json: () => res.json({
 			data: slugs
 		})
