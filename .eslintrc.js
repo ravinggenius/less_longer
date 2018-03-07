@@ -9,7 +9,8 @@ module.exports = {
 		'eslint:recommended',
 		'plugin:import/errors',
 		'plugin:import/warnings',
-		'plugin:promise/recommended'
+		'plugin:promise/recommended',
+		'plugin:react/recommended'
 	],
 
 	parserOptions: {
@@ -40,7 +41,11 @@ module.exports = {
 			varsIgnorePattern: '^_'
 		} ],
 
-		'quotes': [ 'error','single' ],
+		'quotes': [ 'error', 'single' ],
+
+		'react/display-name': [ 'off' ],
+
+		'react/prop-types': [ 'off' ],
 
 		'semi': [ 'error','always' ]
 	}

@@ -3,21 +3,26 @@ const jwt = require('express-jwt');
 const buildPermissions = require('express-jwt-permissions');
 
 const config = require('../config');
+const User = require('../users/model');
 
-const user = require('./users/model');
-
-const guard = buildPermissions();
+const guard = buildPermissions({
+	permissionsProperty: 'capabilities'
+});
 
 module.exports = (...capabilities) => {
 	const routes = express.Router();
 
 	routes.use(async (req, res, next) => {
-		const count = await user.count();
+		const count = await User.count();
 
 		if (count === 0) {
 			res.format({
 				html: () => res.redirect('/u/new'),
-				json: () => res.status(401).end()
+				json: () => res.status(401).json({
+					error: {
+						message: 'No users available'
+					}
+				})
 			});
 		} else {
 			next();
@@ -29,9 +34,9 @@ module.exports = (...capabilities) => {
 			const { authorization } = req.headers;
 
 			if (authorization) {
-				const [ _, token ] = authorization.split(' ');
+				const [ type, token ] = authorization.split(' ');
 
-				if (token) {
+				if ((type.toLowerCase() === 'bearer') && token) {
 					return token;
 				}
 			}
@@ -44,17 +49,17 @@ module.exports = (...capabilities) => {
 
 			return null;
 		},
-		secret: config.sessionSecret
+		secret: config.jwtSecret
 	}), (error, req, res, next) => {
 		if (error && (error.code === 'credentials_required')) {
 			res.format({
 				html: () => res.redirect(`/l?resume=${req.originalUrl}`),
-				json: () => res.send(error)
+				json: () => res.json(error)
 			});
 		} else if (error) {
 			res.format({
-				html: () => null,
-				json: () => res.send(error)
+				html: () => next,
+				json: () => res.json(error)
 			});
 		} else {
 			next();
@@ -63,9 +68,9 @@ module.exports = (...capabilities) => {
 
 	routes.use(guard.check(...capabilities), (error, req, res, next) => {
 		if (error) {
-			res.format({
-				html: () => null,
-				json: () => res.send(error)
+			res.status(403).format({
+				html: next,
+				json: () => res.json(error)
 			});
 		} else {
 			next();

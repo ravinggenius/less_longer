@@ -1,5 +1,5 @@
 {
-  "name": "ravinggenius-less_longer-express",
+  "name": "less_longer",
   "version": "1.0.0",
   "description": "Self-hosted URL shortening service",
   "author": "Thomas Ingram",
@@ -10,28 +10,34 @@
     "lint": "eslint --ignore-path .gitignore .",
     "migrate": "node-pg-migrate --config-file source/db/config.js --migrations-dir source/db/migrations",
     "start": "node index.js",
-    "test": "NODE_ENVIRONMENT=test jest --coverage",
-    "test:watch": "NODE_ENVIRONMENT=test jest --watch"
+    "test": "NODE_ENV=test jest --coverage",
+    "test:watch": "NODE_ENV=test jest --watch"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "conf_conf": "^2.0.1",
+    "cookie-parser": "^1.4.3",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "express-jwt": "^5.3.0",
     "express-jwt-permissions": "^1.0.0",
+    "express-react-views": "^0.10.5",
     "helmet": "^3.10.0",
+    "jsonwebtoken": "^8.1.1",
     "morgan": "^1.9.0",
     "node-pg-migrate": "^2.17.0",
     "pg": "^7.4.1",
-    "pg-promise": "^7.4.0"
+    "pg-promise": "^7.4.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "eslint": "^4.16.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.7.0",
     "jest": "^22.1.4",
     "supertest": "^3.0.0"
   }

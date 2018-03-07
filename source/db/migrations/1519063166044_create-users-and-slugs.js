@@ -4,15 +4,18 @@ exports.up = (pgm) => {
 			notNull: true,
 			primaryKey: true,
 			unique: true,
-			type: 'UUID'
+			type: 'UUID',
+			default: pgm.func('gen_random_uuid()')
 		},
 		createdAt: {
 			notNull: true,
-			type: 'TIMESTAMP WITH TIME ZONE'
+			type: 'TIMESTAMP WITH TIME ZONE',
+			default: pgm.func('now()')
 		},
 		updatedAt: {
 			notNull: true,
-			type: 'TIMESTAMP WITH TIME ZONE'
+			type: 'TIMESTAMP WITH TIME ZONE',
+			default: pgm.func('now()')
 		},
 		username: {
 			notNull: true,
@@ -30,15 +33,18 @@ exports.up = (pgm) => {
 			notNull: true,
 			primaryKey: true,
 			unique: true,
-			type: 'UUID'
+			type: 'UUID',
+			default: pgm.func('gen_random_uuid()')
 		},
 		createdAt: {
 			notNull: true,
-			type: 'TIMESTAMP WITH TIME ZONE'
+			type: 'TIMESTAMP WITH TIME ZONE',
+			default: pgm.func('now()')
 		},
 		updatedAt: {
 			notNull: true,
-			type: 'TIMESTAMP WITH TIME ZONE'
+			type: 'TIMESTAMP WITH TIME ZONE',
+			default: pgm.func('now()')
 		},
 		userId: {
 			notNull: true,
