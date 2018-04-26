@@ -7,9 +7,9 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --ignore-path .gitignore .",
-    "migrate": "node-pg-migrate --config-file source/db/config.js --migrations-dir source/db/migrations",
-    "start": "node index.js",
+    "lint": "eslint --ext .mjs --ignore-path .gitignore .",
+    "migrate": "node-pg-migrate --config-file source/db/config.mjs --migrations-dir source/db/migrations",
+    "start": "node --experimental-modules source/index.mjs",
     "test": "NODE_ENV=test jest --coverage",
     "test:watch": "NODE_ENV=test jest --watch"
   },
@@ -18,7 +18,7 @@
     "body-parser": "^1.18.2",
     "conf_conf": "^2.0.1",
     "cookie-parser": "^1.4.3",
-    "dotenv": "^4.0.0",
+    "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "express-jwt": "^5.3.0",
     "express-jwt-permissions": "^1.0.0",
@@ -34,7 +34,8 @@
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
-    "eslint": "^4.16.0",
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
     "eslint-config-bespoke": "^0.3.1",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-react": "^7.7.0",

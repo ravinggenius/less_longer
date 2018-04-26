@@ -1,7 +1,7 @@
-exports.up = (pgm) => {
+export const up = (pgm) => {
 	pgm.createExtension('pgcrypto');
 };
 
-exports.down = (pgm) => {
+export const down = (pgm) => {
 	pgm.dropExtension('pgcrypto');
 };

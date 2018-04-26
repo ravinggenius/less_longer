@@ -1,13 +1,13 @@
-const { configure } = require('conf_conf');
-const { config } = require('dotenv');
-const path = require('path');
+/* global URL */
 
-config({
-	path: path.join(
-		__dirname,
-		'..',
-		`.env-${process.env.NODE_ENV || 'development'}`
-	)
+import ConfConf from 'conf_conf';
+import dotenv from 'dotenv';
+
+dotenv.config({
+	path: new URL(
+		`../.env-${process.env.NODE_ENV || 'development'}`,
+		import.meta.url
+	).pathname
 });
 
 const configBoolean = ifUndefined => ({
@@ -21,7 +21,7 @@ const configNumber = ifUndefined => ({
 	ifUndefined
 });
 
-module.exports = configure(process.env, {
+export default ConfConf.configure(process.env, {
 	allowMultipleUsers: configBoolean('false'),
 
 	cookieSecret: {

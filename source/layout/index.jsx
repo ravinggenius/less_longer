@@ -1,10 +1,10 @@
-const React = require('react');
+import React from 'react';
 
-const config = require('../config');
+import config from '../config';
 
 const pageTitle = subTitle => subTitle ? `${subTitle} | ${config.title}` : config.title;
 
-module.exports = ({ children, title }) => <html>
+export default ({ children, title }) => <html>
 	<head>
 		<meta charSet="UTF-8" />
 

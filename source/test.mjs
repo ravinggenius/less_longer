@@ -1,6 +1,6 @@
-const request = require('supertest');
+import request from 'supertest';
 
-const server = require('./index');
+import server from './server';
 
 describe('basic setup', () => {
 	test('redirects to /s', async () => {

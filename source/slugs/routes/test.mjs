@@ -1,7 +1,7 @@
-const express = require('express');
-const request = require('supertest');
+import express from 'express';
+import request from 'supertest';
 
-const routes = require('./index');
+import routes from './index';
 
 describe('basic setup', () => {
 	let server;

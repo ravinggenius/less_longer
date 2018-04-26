@@ -1,10 +1,10 @@
-const express = require('express');
-const request = require('supertest');
+import express from 'express';
+import request from 'supertest';
 
-// const { db } = require('../db');
-const user = require('../users/model');
+// import { db } from '../db';
+import * as User from '../users/model';
 
-const protect = require('./index');
+import { protect } from './index';
 
 describe('capabilities', () => {
 	let server;
@@ -20,7 +20,7 @@ describe('capabilities', () => {
 
 	describe('no existing users', () => {
 		test('verify no users', async () => {
-			const usersCount = await user.count();
+			const usersCount = await User.count();
 
 			expect(usersCount).toBe(0);
 		});
@@ -53,11 +53,11 @@ describe('capabilities', () => {
 
 	describe('with existing users', () => {
 		beforeEach(async () => {
-			await user.create('foo', 'bar');
+			await User.create('foo', 'bar');
 		});
 
 		test('verify a user', async () => {
-			const usersCount = await user.count();
+			const usersCount = await User.count();
 
 			// const foo = await db.one('SELECT * FROM users');
 

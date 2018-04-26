@@ -1,4 +1,4 @@
-exports.up = (pgm) => {
+export const up = (pgm) => {
 	pgm.createTable('users', {
 		id: {
 			notNull: true,
@@ -63,7 +63,7 @@ exports.up = (pgm) => {
 	});
 };
 
-exports.down = (pgm) => {
+export const down = (pgm) => {
 	pgm.dropTable('slugs');
 	pgm.dropTable('users');
 };

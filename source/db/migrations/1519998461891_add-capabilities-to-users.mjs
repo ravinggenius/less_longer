@@ -1,4 +1,4 @@
-exports.up = (pgm) => {
+export const up = (pgm) => {
 	pgm.addColumns('users', {
 		capabilities: {
 			notNull: true,
@@ -8,7 +8,7 @@ exports.up = (pgm) => {
 	});
 };
 
-exports.down = (pgm) => {
+export const down = (pgm) => {
 	pgm.dropColumns('users', [
 		'capabilities'
 	]);

@@ -1,14 +1,15 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
 
-const protect = require('../../checkCapabilities');
+import { protect } from '../../checkCapabilities';
+import dirName from '../../dirName';
 
-const Slug = require('../model');
-const SLUG = require('../model/capabilities');
+import * as Slug from '../model';
+import * as SLUG from '../model/capabilities';
 
 const routes = express();
 
-routes.set('views', path.join(__dirname, 'views'));
+routes.set('views', path.join(dirName(import.meta), 'views'));
 
 routes.get('/', protect(SLUG.index), async (req, res) => {
 	const slugs = await Slug.list();
@@ -42,4 +43,4 @@ routes.put('/:slugCode', protect(SLUG.write), (req, res, next) => {
 	});
 });
 
-module.exports = routes;
+export default routes;

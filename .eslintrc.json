@@ -7,5 +7,7 @@
   "extends": [
     "bespoke",
     "plugin:react/recommended"
-  ]
+  ],
+
+  "parser": "babel-eslint"
 }

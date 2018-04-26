@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-const config = require('../../config');
-const User = require('../../users/model');
+import config from '../../config';
+import * as User from '../../users/model';
 
-const generateToken = async (username, password) => {
+export default async (username, password) => {
 	const {
 		capabilities,
 		userId
@@ -18,5 +18,3 @@ const generateToken = async (username, password) => {
 		expiresIn: config.tokenExpirationSeconds
 	});
 };
-
-module.exports = generateToken;

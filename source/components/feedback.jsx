@@ -1,4 +1,4 @@
-const React = require('react');
+import React from 'react';
 
 const Errors = ({ details = [], message }) => <div>
 	<p>{message}</p>
@@ -8,4 +8,4 @@ const Errors = ({ details = [], message }) => <div>
 	</ul> : null}
 </div>;
 
-module.exports = Errors;
+export default Errors;

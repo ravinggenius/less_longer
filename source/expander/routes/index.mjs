@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 
-const slug = require('../../slugs/model');
+import * as Slug from '../../slugs/model';
 
 const routes = express.Router();
 
@@ -11,7 +11,7 @@ routes.get('/:slugCode', async (req, res, next) => {
 		return next();
 	}
 
-	const url = await slug.loadUrl(slugCode);
+	const url = await Slug.loadUrl(slugCode);
 
 	if (url) {
 		res.redirect(url);
@@ -20,4 +20,4 @@ routes.get('/:slugCode', async (req, res, next) => {
 	}
 });
 
-module.exports = routes;
+export default routes;

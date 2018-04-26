@@ -1,13 +1,14 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
 
-const config = require('../../config');
+import config from '../../config';
+import dirName from '../../dirName';
 
-const generateToken = require('./generateToken');
+import generateToken from './generateToken';
 
 const routes = express();
 
-routes.set('views', path.join(__dirname, 'views'));
+routes.set('views', path.join(dirName(import.meta), 'views'));
 
 const ensureUnAuthenticated = (req, res, next) => {
 	if (req.user) {
@@ -54,4 +55,4 @@ routes.post('/', ensureUnAuthenticated, async (req, res) => {
 	}
 });
 
-module.exports = routes;
+export default routes;

@@ -1,27 +1,25 @@
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const expressReact = require('express-react-views');
-const helmet = require('helmet');
-const morgan = require('morgan');
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import expressReact from 'express-react-views';
+import helmet from 'helmet';
+import morgan from 'morgan';
 
-const config = require('./config');
-
-const expanderRoutes = require('./expander/routes');
-const loginRoutes = require('./logins/routes');
-const slugRoutes = require('./slugs/routes');
-const userRoutes = require('./users/routes');
+import config from './config';
+import dirName from './dirName';
+import expanderRoutes from './expander/routes';
+import loginRoutes from './logins/routes';
+import slugRoutes from './slugs/routes';
+import userRoutes from './users/routes';
 
 const server = express();
 
 server.engine('jsx', expressReact.createEngine({
 	babel: {
-		only: `${__dirname}/**/*.jsx`,
+		only: `${dirName(import.meta)}/**/*.jsx`,
 		presets: [
-			'react',
-			[
-				'env',
-				{
+			'react', [
+				'env', {
 					targets: {
 						node: 'current'
 					}
@@ -66,4 +64,4 @@ server.use((req, res) => res.format({
 	})
 }));
 
-module.exports = server;
+export default server;

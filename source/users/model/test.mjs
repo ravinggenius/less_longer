@@ -1,12 +1,12 @@
-const { db } = require('../../db');
+import { db } from '../../db';
 
-const user = require('./index');
+import * as User from './index';
 
 describe('user model', () => {
 	describe('count()', () => {
 		describe('when no users', () => {
 			test('returns user count', async () => {
-				const count = await user.count();
+				const count = await User.count();
 
 				expect(count).toBe(0);
 			});
@@ -21,7 +21,7 @@ describe('user model', () => {
 			});
 
 			test('returns user count', async () => {
-				const count = await user.count();
+				const count = await User.count();
 
 				expect(count).toBe(1);
 			});
@@ -30,7 +30,7 @@ describe('user model', () => {
 
 	describe('create()', () => {
 		test('resolves to new user id', async () => {
-			const id = await user.create('foo', 'bar');
+			const id = await User.create('foo', 'bar');
 			const pattern = /[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}/;
 
 			expect(id).toMatch(pattern);
@@ -38,7 +38,7 @@ describe('user model', () => {
 
 		test('hashes the password', async () => {
 			const password = 'bar';
-			const id = await user.create('foo', 'bar');
+			const id = await User.create('foo', 'bar');
 			const attrs = await db.one(`
 				SELECT *
 				FROM users

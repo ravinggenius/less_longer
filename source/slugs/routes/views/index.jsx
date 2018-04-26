@@ -1,8 +1,8 @@
-const React = require('react');
+import React from 'react';
 
-const Layout = require('../../../layout');
+import Layout from '../../../layout';
 
-module.exports = ({ slugs }) => <Layout title="Listing Slugs">
+export default ({ slugs }) => <Layout title="Listing Slugs">
 	{slugs.length ? <ul>
 		{slugs.map(({ id, code, url }) => <li key={id}>
 			<span>{code}</span>

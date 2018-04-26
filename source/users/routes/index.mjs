@@ -1,19 +1,20 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
 
-const protect = require('../../checkCapabilities');
-const config = require('../../config');
-const generateToken = require('../../logins/routes/generateToken');
-const SLUG = require('../../slugs/model/capabilities');
+import { protect } from '../../checkCapabilities';
+import config from '../../config';
+import dirName from '../../dirName';
+import generateToken from '../../logins/routes/generateToken';
+import * as SLUG from '../../slugs/model/capabilities';
 
-const User = require('../model');
-const USER = require('../model/capabilities');
+import * as User from '../model';
+import * as USER from '../model/capabilities';
 
-const ensureUserCreatable = require('./ensureUserCreatable');
+import { ensureUserCreatable } from './ensureUserCreatable';
 
 const routes = express();
 
-routes.set('views', path.join(__dirname, 'views'));
+routes.set('views', path.join(dirName(import.meta), 'views'));
 
 routes.get('/', protect(USER.read), (req, res, next) => {
 	res.format({
@@ -74,4 +75,4 @@ routes.post('/', ensureUserCreatable, async (req, res) => {
 	}
 });
 
-module.exports = routes;
+export default routes;

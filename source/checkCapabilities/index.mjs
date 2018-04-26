@@ -1,15 +1,15 @@
-const express = require('express');
-const jwt = require('express-jwt');
-const buildPermissions = require('express-jwt-permissions');
+import express from 'express';
+import jwt from 'express-jwt';
+import buildPermissions from 'express-jwt-permissions';
 
-const config = require('../config');
-const User = require('../users/model');
+import config from '../config';
+import * as User from '../users/model';
 
 const guard = buildPermissions({
 	permissionsProperty: 'capabilities'
 });
 
-module.exports = (...capabilities) => {
+export const protect = (...capabilities) => {
 	const routes = express.Router();
 
 	routes.use(async (req, res, next) => {

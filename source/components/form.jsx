@@ -1,18 +1,14 @@
-const React = require('react');
+import React from 'react';
+
+export const Button = ({ children, type = 'button' }) => <button {...{ type }}>{children}</button>;
+
+export const Input = ({ label, name, required, type, value }) => <label>
+	<span>{label}</span>
+	<input {...{ name, required, type }} defaultValue={value} />
+</label>;
 
 const Form = ({ action, children, method }) => <form {...{ action, method }}>
 	{children}
 </form>;
 
-const Button = ({ children, type = 'button' }) => <button {...{ type }}>{children}</button>;
-
-Form.Button = Button;
-
-const Input = ({ label, name, required, type, value }) => <label>
-	<span>{label}</span>
-	<input {...{ name, required, type }} defaultValue={value} />
-</label>;
-
-Form.Input = Input;
-
-module.exports = Form;
+export default Form;

@@ -1,9 +1,9 @@
-const React = require('react');
+import React from 'react';
 
-const { Errors, Form } = require('../../../components');
-const Layout = require('../../../layout');
+import { Errors, Form } from '../../../components';
+import Layout from '../../../layout';
 
-module.exports = ({ error, username }) => <Layout title="Login">
+export default ({ error, username }) => <Layout title="Login">
 	{error && <Errors details={error.details} message={error.message} />}
 
 	<Form action="/l" method="post">
