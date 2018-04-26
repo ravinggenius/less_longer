@@ -12,5 +12,5 @@ module.exports = {
 		sql.findByCode,
 		{ code },
 		slug => slug ? slug.url : null
-	),
+	)
 };

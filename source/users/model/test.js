@@ -14,7 +14,10 @@ describe('user model', () => {
 
 		describe('when some users', () => {
 			beforeEach(async () => {
-				await db.none('INSERT INTO users (username, hashword) VALUES (\'foo\', \'bar\')');
+				await db.none(`
+					INSERT INTO users (username, hashword)
+					VALUES ('foo', 'bar')
+				`);
 			});
 
 			test('returns user count', async () => {
@@ -36,7 +39,11 @@ describe('user model', () => {
 		test('hashes the password', async () => {
 			const password = 'bar';
 			const id = await user.create('foo', 'bar');
-			const attrs = await db.one('SELECT * FROM users WHERE id = $<id>', { id });
+			const attrs = await db.one(`
+				SELECT *
+				FROM users
+				WHERE id = $<id>
+			`, { id });
 
 			expect(attrs).not.toHaveProperty('password');
 			expect(attrs.hashword).not.toEqual(password);

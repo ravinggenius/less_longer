@@ -25,6 +25,7 @@ const validate = (username, password) => {
 	if (password.length < PASSWORD_MIN_LENGTH) {
 		errors.push({
 			key: 'password',
+			// eslint-disable-next-line max-len
 			message: `Password must be at least ${PASSWORD_MIN_LENGTH} characters long`
 		});
 	}
@@ -42,7 +43,10 @@ module.exports = {
 	authenticate: async (username, password) => {
 		try {
 			const user = await db.one(sql.get, { username });
-			const isAuthenticated = await bcrypt.compare(password, user.hashword);
+			const isAuthenticated = await bcrypt.compare(
+				password,
+				user.hashword
+			);
 
 			return {
 				capabilities: user.capabilities,
