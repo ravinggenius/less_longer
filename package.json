@@ -7,6 +7,7 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
+    "dev": "next",
     "lint": "eslint --ext .mjs --ignore-path .gitignore .",
     "migrate": "node-pg-migrate --config-file source/db/config.mjs --migrations-dir source/db/migrations",
     "start": "node --experimental-modules source/index.mjs",
@@ -14,11 +15,15 @@
     "test:watch": "NODE_ENV=test jest --watch"
   },
   "dependencies": {
+    "babel-plugin-emotion": "^9.1.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "conf_conf": "^2.0.1",
     "cookie-parser": "^1.4.3",
+    "cross-env": "^5.1.4",
     "dotenv": "^5.0.1",
+    "emotion": "^9.1.2",
+    "emotion-server": "^9.1.2",
     "express": "^4.16.2",
     "express-jwt": "^5.3.0",
     "express-jwt-permissions": "^1.0.0",
@@ -26,12 +31,14 @@
     "helmet": "^3.10.0",
     "jsonwebtoken": "^8.1.1",
     "morgan": "^1.9.0",
+    "next": "^6.0.0",
     "node-pg-migrate": "^2.17.0",
     "pg": "^7.4.1",
     "pg-monitor": "^0.9.1",
     "pg-promise": "^7.4.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-emotion": "^9.1.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
