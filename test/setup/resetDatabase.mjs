@@ -1,4 +1,4 @@
-import { db } from '../../source/db';
+import { db } from '../../server/db';
 
 const resetDatabase = async () => {
 	await db.none('TRUNCATE TABLE slugs CASCADE');

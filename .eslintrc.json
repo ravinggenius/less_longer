@@ -1,9 +1,4 @@
 {
-  "env": {
-    "jest": true,
-    "node": true
-  },
-
   "extends": [
     "bespoke",
     "plugin:react/recommended"
