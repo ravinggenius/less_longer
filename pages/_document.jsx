@@ -1,6 +1,13 @@
 import { extractCritical } from 'emotion-server';
 import Document, { Head, Main, NextScript } from 'next/document';
 import React from 'react';
+import { injectGlobal } from 'react-emotion';
+
+injectGlobal`
+	body {
+		margin: 0;
+	}
+`;
 
 export default class Layout extends Document {
 	static getInitialProps({ renderPage }) {
