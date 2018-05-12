@@ -24,7 +24,7 @@ const validate = (username, password) => {
 
 	if (password.length < PASSWORD_MIN_LENGTH) {
 		errors.push({
-			key: 'password',
+			field: 'password',
 			// eslint-disable-next-line max-len
 			message: `Password must be at least ${PASSWORD_MIN_LENGTH} characters long`
 		});
