@@ -12,7 +12,7 @@ const sql = {
 const USERNAME_PATTERN = /^[0-9A-Za-z_]+$/;
 const PASSWORD_MIN_LENGTH = 12;
 
-const validate = (username, password) => {
+const validate = (username, password, passwordConfirmation) => {
 	const errors = [];
 
 	if (!USERNAME_PATTERN.test(username)) {
@@ -27,6 +27,13 @@ const validate = (username, password) => {
 			field: 'password',
 			// eslint-disable-next-line max-len
 			message: `Password must be at least ${PASSWORD_MIN_LENGTH} characters long`
+		});
+	}
+
+	if (password !== passwordConfirmation) {
+		errors.push({
+			field: 'passwordConfirmation',
+			message: 'Confirmation does not match password'
 		});
 	}
 
@@ -68,8 +75,13 @@ export const count = () => db.one(
 	({ count }) => Number.parseInt(count, 10)
 );
 
-export const create = async (username, password, capabilities) => {
-	validate(username, password || '');
+export const create = async (
+	username,
+	password,
+	passwordConfirmation,
+	capabilities
+) => {
+	validate(username, password || '', passwordConfirmation);
 
 	const salt = await bcrypt.genSalt(config.hashStrength);
 	const hashword = await bcrypt.hash(password, salt);

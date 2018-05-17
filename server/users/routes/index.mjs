@@ -36,10 +36,10 @@ export default (app) => {
 	});
 
 	routes.post('/u', ensureUserCreatable, async (req, res) => {
-		const { username, password } = req.body;
+		const { username, password, passwordConfirmation } = req.body;
 
 		try {
-			await User.create(username, password, [
+			await User.create(username, password, passwordConfirmation, [
 				SLUG.index,
 				SLUG.read,
 				SLUG.write,

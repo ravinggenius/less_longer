@@ -14,10 +14,11 @@ class UserCreateForm extends React.Component {
 
 	static getDerivedStateFromProps(
 		{ username },
-		{ displayUsername, displayPassword }
+		{ displayUsername, displayPassword, displayPasswordConfirmation }
 	) {
 		return {
 			displayPassword: displayPassword || '',
+			displayPasswordConfirmation: displayPasswordConfirmation || '',
 			displayUsername: displayUsername || username || ''
 		};
 	}
@@ -42,13 +43,18 @@ class UserCreateForm extends React.Component {
 
 	handleSubmit = async (event) => {
 		const { action, router } = this.props;
-		const { displayPassword, displayUsername } = this.state;
+		const {
+			displayPassword,
+			displayPasswordConfirmation,
+			displayUsername
+		} = this.state;
 
 		event.preventDefault();
 
 		try {
 			const { data } = await fetchAuthenticatedBody('POST', action, {
 				password: displayPassword,
+				passwordConfirmation: displayPasswordConfirmation,
 				username: displayUsername
 			});
 
@@ -64,7 +70,12 @@ class UserCreateForm extends React.Component {
 
 	render() {
 		const { action } = this.props;
-		const { displayPassword, displayUsername, error } = this.state;
+		const {
+			displayPassword,
+			displayPasswordConfirmation,
+			displayUsername,
+			error
+		} = this.state;
 
 		return <Layout title="Create User">
 			<SmallBody>
@@ -86,6 +97,16 @@ class UserCreateForm extends React.Component {
 						onChange={this.handleChange('displayPassword')}
 						type="password"
 						value={displayPassword}
+					/>
+
+					<Input
+						label="Confirm"
+						name="passwordConfirmation"
+						onChange={this.handleChange(
+							'displayPasswordConfirmation'
+						)}
+						type="password"
+						value={displayPasswordConfirmation}
 					/>
 
 					<Button type="submit">Create User</Button>
