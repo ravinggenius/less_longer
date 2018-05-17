@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { fetchAuthenticated } from '../../client/browser';
-import { P } from '../../components/text';
+import Layout, { Body, Header } from '../../components/layouts/LinearLayout';
+import { H1, P } from '../../components/text';
 
 export default class SlugsIndex extends React.Component {
 	static defaultProps = {
@@ -42,11 +43,19 @@ export default class SlugsIndex extends React.Component {
 			return <P>Loading slugs....</P>;
 		}
 
-		return slugs.length ? <ul>
-			{slugs.map(({ id, code, url }) => <li key={id}>
-				<span>{code}</span>
-				<span>{url}</span>
-			</li>)}
-		</ul> : <P>No slugs to list</P>;
+		return <Layout title="Slugs">
+			<Header>
+				<H1>Shortened URLs</H1>
+			</Header>
+
+			<Body>
+				{slugs.length ? <ul>
+					{slugs.map(({ id, code, url }) => <li key={id}>
+						<span>{code}</span>
+						<span>{url}</span>
+					</li>)}
+				</ul> : <P>No slugs to list</P>}
+			</Body>
+		</Layout>;
 	}
 }

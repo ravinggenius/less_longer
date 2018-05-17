@@ -12,7 +12,9 @@ const Errors = ({ details = [], message }) => <div>
 </div>;
 
 Errors.propTypes = {
-	details: PropTypes.arrayOf(PropTypes.string),
+	details: PropTypes.arrayOf(PropTypes.shape({
+		message: PropTypes.string.isRequired
+	})),
 	message: PropTypes.string.isRequired
 };
 

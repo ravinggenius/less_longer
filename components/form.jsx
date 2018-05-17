@@ -1,51 +1,64 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'react-emotion';
 
-export const Button = ({
-	children,
-	type = 'button'
-}) => <button {...{ type }}>{children}</button>;
+import Errors from './feedback';
+import { P } from './text';
+
+export const Button = styled.button`
+	background-color: #FFFFFF;
+	border: 1px solid #999999;
+	border-radius: 2px;
+	cursor: pointer;
+	font-size: 14px;
+	width: 100%;
+
+	&:focus {
+		border-color: #333333;
+		outline-style: none;
+	}
+`;
 
 Button.propTypes = {
 	children: PropTypes.node.isRequired,
 	type: PropTypes.string
 };
 
-export const Input = ({
-	label,
-	name,
-	onChange,
-	required = false,
-	type = 'text',
-	value
-}) => <label>
-	<span>{label}</span>
-	<input {...{ name, onChange, required, type }} defaultValue={value} />
-</label>;
+const Form = styled.form`
+	background-color: #FFFFFF;
+	border-radius: 2px;
+	box-shadow: 2px 2px #666666;
+	padding: 20px;
 
-Input.propTypes = {
-	label: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
-	required: PropTypes.bool,
-	type: PropTypes.string,
-	value: PropTypes.string.isRequired
-};
+	${P} {
+		color: #000000;
+	}
+`;
 
-const Form = ({
+const Wrapper = ({
 	action,
 	children,
+	error,
 	method,
-	onSubmit
-}) => <form {...{ action, method, onSubmit }}>
-	{children}
-</form>;
+	onSubmit,
+	...ambient
+}) => <Form {...{ action, method, onSubmit }} {...ambient}>
+	{error && <Errors {...error} />}
 
-Form.propTypes = {
+	{children}
+</Form>;
+
+Wrapper.propTypes = {
 	action: PropTypes.string.isRequired,
-	children: PropTypes.arrayOf(PropTypes.element).isRequired,
+	error: PropTypes.shape({
+		details: PropTypes.arrayOf(PropTypes.shape({
+			message: PropTypes.string.isRequired
+		})),
+		message: PropTypes.string.isRequired
+	}),
+	children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
 	method: PropTypes.string.isRequired,
 	onSubmit: PropTypes.func.isRequired
 };
 
-export default Form;
+export default Wrapper;

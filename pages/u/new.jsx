@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import Head from 'next/head';
-import Router from 'next/router';
+import { withRouter } from 'next/router';
 import React from 'react';
 
 import { fetchAuthenticatedBody, setToken } from '../../client/browser';
-import Errors from '../../components/feedback';
-import Form, { Button, Input } from '../../components/form';
+import Form, { Button } from '../../components/form';
+import Input from '../../components/input';
+import Layout, { SmallBody } from '../../components/layouts/LinearLayout';
 
-export default class UserCreateForm extends React.Component {
+class UserCreateForm extends React.Component {
 	static propTypes = {
 		action: PropTypes.string.isRequired
 	}
@@ -41,7 +41,7 @@ export default class UserCreateForm extends React.Component {
 	}
 
 	handleSubmit = async (event) => {
-		const { action } = this.props;
+		const { action, router } = this.props;
 		const { displayPassword, displayUsername } = this.state;
 
 		event.preventDefault();
@@ -54,8 +54,8 @@ export default class UserCreateForm extends React.Component {
 
 			setToken(data.token);
 
-			Router.replace('/s');
-		} catch (error) {
+			router.replace('/s');
+		} catch ({ error }) {
 			this.setState(() => ({
 				error
 			}));
@@ -66,28 +66,33 @@ export default class UserCreateForm extends React.Component {
 		const { action } = this.props;
 		const { displayPassword, displayUsername, error } = this.state;
 
-		return <Form {...{ action }} method="post" onSubmit={this.handleSubmit}>
-			<Head>
-				<title>Create User | Less Longer</title>
-			</Head>
+		return <Layout title="Create User">
+			<SmallBody>
+				<Form
+					{...{ action, error }}
+					method="post"
+					onSubmit={this.handleSubmit}
+				>
+					<Input
+						label="Username"
+						name="username"
+						onChange={this.handleChange('displayUsername')}
+						value={displayUsername}
+					/>
 
-			{error && <Errors {...{ error }} />}
+					<Input
+						label="Password"
+						name="password"
+						onChange={this.handleChange('displayPassword')}
+						type="password"
+						value={displayPassword}
+					/>
 
-			<Input
-				label="Username"
-				name="username"
-				onChange={this.handleChange('displayUsername')}
-				value={displayUsername}
-			/>
-			<Input
-				label="Password"
-				name="password"
-				onChange={this.handleChange('displayPassword')}
-				type="password"
-				value={displayPassword}
-			/>
-
-			<Button type="submit">Create User</Button>
-		</Form>;
+					<Button type="submit">Create User</Button>
+				</Form>
+			</SmallBody>
+		</Layout>;
 	}
 }
+
+export default withRouter(UserCreateForm);
