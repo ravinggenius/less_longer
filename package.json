@@ -7,8 +7,8 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --ext .jsx --ext .mjs --ignore-path .gitignore .",
-    "migrate": "node-pg-migrate --config-file server/db/config.mjs --migrations-dir server/db/migrations",
+    "lint": "eslint --ext .js --ext .jsx --ext .mjs --ignore-path .gitignore .",
+    "migrate": "node-pg-migrate --migrations-dir server/db/migrations",
     "start": "node --experimental-modules server/index.mjs",
     "test": "NODE_ENV=test jest --coverage",
     "test:watch": "NODE_ENV=test jest --watch"
