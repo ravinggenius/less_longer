@@ -8,9 +8,9 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ext .js --ext .jsx --ext .mjs --ignore-path .gitignore .",
-    "migrate": "node-pg-migrate --migrations-dir server/db/migrations",
-    "migrate:development": "env-cmd .env-development node-pg-migrate --migrations-dir server/db/migrations",
-    "migrate:test": "env-cmd .env-test node-pg-migrate --migrations-dir server/db/migrations",
+    "migrate": "pg-bump --files server/db/migrations",
+    "migrate:development": "env-cmd .env-development pg-bump --files server/db/migrations",
+    "migrate:test": "env-cmd .env-test pg-bump --files server/db/migrations",
     "start": "node --experimental-modules server/index.mjs",
     "test": "NODE_ENV=test jest --coverage",
     "test:watch": "NODE_ENV=test jest --watch"
@@ -33,8 +33,8 @@
     "jsonwebtoken": "^8.x.x",
     "morgan": "^1.x.x",
     "next": "^6.x.x",
-    "node-pg-migrate": "^2.x.x",
     "pg": "^7.x.x",
+    "pg-bump": "^2.x.x",
     "pg-monitor": "^0.x.x",
     "pg-promise": "^7.x.x",
     "react": "^16.x.x",
