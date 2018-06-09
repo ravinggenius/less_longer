@@ -9,6 +9,8 @@
   "scripts": {
     "lint": "eslint --ext .js --ext .jsx --ext .mjs --ignore-path .gitignore .",
     "migrate": "node-pg-migrate --migrations-dir server/db/migrations",
+    "migrate:development": "env-cmd .env-development node-pg-migrate --migrations-dir server/db/migrations",
+    "migrate:test": "env-cmd .env-test node-pg-migrate --migrations-dir server/db/migrations",
     "start": "node --experimental-modules server/index.mjs",
     "test": "NODE_ENV=test jest --coverage",
     "test:watch": "NODE_ENV=test jest --watch"
@@ -41,6 +43,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.x.x",
+    "env-cmd": "^8.x.x",
     "eslint": "^4.x.x",
     "eslint-config-bespoke": "^0.x.x",
     "eslint-plugin-import": "^2.x.x",
