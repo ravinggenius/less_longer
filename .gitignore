@@ -1,6 +1,8 @@
 .env-*
 !.env-sample
 
+.next
+
 .vscode/*
 !.vscode/extensions.json
 !.vscode/launch.json
