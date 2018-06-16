@@ -11,9 +11,7 @@
     "migrate": "pg-bump --files server/db/migrations",
     "migrate:development": "env-cmd .env-development pg-bump --files server/db/migrations",
     "migrate:test": "env-cmd .env-test pg-bump --files server/db/migrations",
-    "start": "node --experimental-modules server/index.mjs",
-    "test": "NODE_ENV=test jest --coverage",
-    "test:watch": "NODE_ENV=test jest --watch"
+    "start": "node --experimental-modules server/index.mjs"
   },
   "dependencies": {
     "babel-plugin-emotion": "^9.x.x",
@@ -47,8 +45,6 @@
     "eslint": "^4.x.x",
     "eslint-config-bespoke": "^0.x.x",
     "eslint-plugin-import": "^2.x.x",
-    "eslint-plugin-react": "^7.x.x",
-    "jest": "^22.x.x",
-    "supertest": "^3.x.x"
+    "eslint-plugin-react": "^7.x.x"
   }
 }
