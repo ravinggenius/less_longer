@@ -1,9 +1,6 @@
-import { db, loadQuery } from '../../db';
+import { db, loadQueries } from '../../db';
 
-const sql = {
-	findByCode: loadQuery('slugs/model/queries/findByCode.sql'),
-	list: loadQuery('slugs/model/queries/list.sql')
-};
+const sql = loadQueries('slugs/model/queries');
 
 export const list = () => db.manyOrNone(sql.list);
 

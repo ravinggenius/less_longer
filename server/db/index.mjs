@@ -1,5 +1,7 @@
 /* global URL */
 
+import { readdirSync } from 'fs';
+import { basename, extname } from 'path';
 import monitor from 'pg-monitor';
 import pgp from 'pg-promise';
 
@@ -12,12 +14,24 @@ if (config.logFormat !== 'disabled') {
 	monitor.attach(initOptions);
 }
 
+const normalize = path => new URL(
+	path,
+	import.meta.url
+).pathname;
+
 export const db = pgp(initOptions)(config.databaseUrl);
 
-export const loadQuery = (file) =>  new pgp.QueryFile(new URL(
-	`../${file}`,
-	import.meta.url
-).pathname, {
-	debug: true,
-	minify: true
-});
+export const loadQueries = queryDir => {
+	const children = readdirSync(normalize(`../${queryDir}`));
+
+	return children.filter(file => extname(file) === '.sql').map(file => [
+		basename(file, '.sql'),
+		new pgp.QueryFile(normalize(`../${queryDir}/${file}`), {
+			debug: true,
+			minify: true
+		})
+	]).reduce((reply, [ name, query ]) => ({
+		...reply,
+		[name]: query
+	}), {});
+};
