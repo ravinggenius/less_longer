@@ -3,6 +3,7 @@ import React from 'react';
 
 import { fetchAuthenticated } from '../../client/browser';
 import Layout from '../../components/layouts/LinearLayout';
+import SlugsList from '../../components/slug_list';
 import { H1, P } from '../../components/text';
 
 export default class SlugsIndex extends React.Component {
@@ -44,12 +45,7 @@ export default class SlugsIndex extends React.Component {
 		}
 
 		return <Layout header={<H1>Shortened URLs</H1>} title="Slugs">
-			{slugs.length ? <ul>
-				{slugs.map(({ id, code, url }) => <li key={id}>
-					<span>{code}</span>
-					<span>{url}</span>
-				</li>)}
-			</ul> : <P>No slugs to list</P>}
+			<SlugsList {...{ slugs }} />
 		</Layout>;
 	}
 }
