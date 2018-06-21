@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
 import { withRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { fetchAuthenticatedBody, setToken } from '../../client/browser';
 import Form, { Button } from '../../components/form';
 import Input from '../../components/input';
-import Layout, { SmallBody } from '../../components/layouts/LinearLayout';
+import Layout from '../../components/layouts/LinearLayout';
 
 class UserCreateForm extends React.Component {
 	static propTypes = {
@@ -78,40 +78,38 @@ class UserCreateForm extends React.Component {
 		} = this.state;
 
 		return <Layout title="Create User">
-			<SmallBody>
-				<Form
-					{...{ action, error }}
-					method="post"
-					onSubmit={this.handleSubmit}
-				>
-					<Input
-						label="Username"
-						name="username"
-						onChange={this.handleChange('displayUsername')}
-						value={displayUsername}
-					/>
+			<Form
+				{...{ action, error }}
+				method="post"
+				onSubmit={this.handleSubmit}
+			>
+				<Input
+					label="Username"
+					name="username"
+					onChange={this.handleChange('displayUsername')}
+					value={displayUsername}
+				/>
 
-					<Input
-						label="Password"
-						name="password"
-						onChange={this.handleChange('displayPassword')}
-						type="password"
-						value={displayPassword}
-					/>
+				<Input
+					label="Password"
+					name="password"
+					onChange={this.handleChange('displayPassword')}
+					type="password"
+					value={displayPassword}
+				/>
 
-					<Input
-						label="Confirm"
-						name="passwordConfirmation"
-						onChange={this.handleChange(
-							'displayPasswordConfirmation'
-						)}
-						type="password"
-						value={displayPasswordConfirmation}
-					/>
+				<Input
+					label="Confirm"
+					name="passwordConfirmation"
+					onChange={this.handleChange(
+						'displayPasswordConfirmation'
+					)}
+					type="password"
+					value={displayPasswordConfirmation}
+				/>
 
-					<Button type="submit">Create User</Button>
-				</Form>
-			</SmallBody>
+				<Button type="submit">Create User</Button>
+			</Form>
 		</Layout>;
 	}
 }

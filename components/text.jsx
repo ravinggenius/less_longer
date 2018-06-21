@@ -7,6 +7,5 @@ export const H1 = styled.h1`
 `;
 
 export const P = styled.p`
-	color: #FFFFFF;
 	margin: 0 auto 10px;
 `;

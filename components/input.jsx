@@ -3,13 +3,15 @@ import React from 'react';
 import styled from 'react-emotion';
 
 const Input = styled.input`
-	background-color: #FFFFFF;
+	background-color: inherit;
 	border: 1px solid #999999;
 	border-radius: 2px;
 	font-size: 20px;
 	width: 100%;
 
+	&:hover,
 	&:focus {
+		background-color: #FFFFFF;
 		border-color: #333333;
 		outline-style: none;
 	}

@@ -6,14 +6,15 @@ import Errors from './feedback';
 import { P } from './text';
 
 export const Button = styled.button`
-	background-color: #FFFFFF;
+	background-color: inherit;
 	border: 1px solid #999999;
 	border-radius: 2px;
 	cursor: pointer;
 	font-size: 14px;
-	width: 100%;
 
-	&:focus {
+	&:focus,
+	&:hover {
+		background-color: #FFFFFF;
 		border-color: #333333;
 		outline-style: none;
 	}
@@ -25,10 +26,12 @@ Button.propTypes = {
 };
 
 const Form = styled.form`
-	background-color: #FFFFFF;
-	border-radius: 2px;
-	box-shadow: 2px 2px #666666;
-	padding: 20px;
+	display: flex;
+	flex-direction: column;
+
+	${Button} {
+		margin-left: auto;
+	}
 
 	${P} {
 		color: #000000;
