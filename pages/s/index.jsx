@@ -3,6 +3,7 @@ import React from 'react';
 
 import { fetchAuthenticated } from '../../client/browser';
 import Layout from '../../components/layouts/LinearLayout';
+import SlugForm from '../../components/slug_form';
 import SlugsList from '../../components/slug_list';
 import { H1, P } from '../../components/text';
 
@@ -45,6 +46,8 @@ export default class SlugsIndex extends React.Component {
 		}
 
 		return <Layout header={<H1>Shortened URLs</H1>} title="Slugs">
+			<SlugForm />
+
 			<SlugsList {...{ slugs }} />
 		</Layout>;
 	}

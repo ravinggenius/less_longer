@@ -33,8 +33,9 @@ const Wrapper = ({
 	onChange,
 	required = false,
 	type = 'text',
-	value
-}) => <Label>
+	value,
+	...ambient
+}) => <Label {...ambient}>
 	<LabelText>{label}</LabelText>
 	<Input {...{ name, onChange, required, type }} defaultValue={value} />
 </Label>;

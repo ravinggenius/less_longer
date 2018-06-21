@@ -1,5 +1,6 @@
 import express from 'express';
 
+import asJSON from '../../asJSON';
 import { protect } from '../../checkCapabilities';
 
 import * as Slug from '../model';
@@ -19,11 +20,30 @@ export default (app) => {
 		});
 	});
 
-	routes.post('/s', protect(SLUG.write), (req, res) => {
-		res.format({
-			html: () => res.redirect('/s/:slugCode'),
-			json: () => res.status(204).end()
-		});
+	routes.post('/s', protect(SLUG.write), async (req, res) => {
+		const { code, url } = req.body;
+		const { userId } = req.user;
+
+		try {
+			const slug = await Slug.create(userId, code, url);
+
+			res.format({
+				html: () => res.redirect(`/s/${slug.code}`),
+				json: () => res.status(201).json({
+					data: slug
+				})
+			});
+		} catch (error) {
+			const slugs = await Slug.list();
+
+			res.format({
+				html: () => app.status(400).render(req, res, '/s', {
+					error: asJSON(error),
+					slugs
+				}),
+				json: () => res.status(400).json({ error: asJSON(error) })
+			});
+		}
 	});
 
 	routes.get('/s/:slugCode', protect(SLUG.read), async (req, res, next) => {
