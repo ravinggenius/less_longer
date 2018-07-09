@@ -25,11 +25,11 @@ export default (app) => {
 		const { userId } = req.user;
 
 		try {
-			const slug = await Slug.create(userId, code, url);
+			const [ slug, wasCreated ] = await Slug.create(userId, code, url);
 
 			res.format({
 				html: () => res.redirect(`/s/${slug.code}`),
-				json: () => res.status(201).json({
+				json: () => res.status(wasCreated ? 201 : 200).json({
 					data: slug
 				})
 			});

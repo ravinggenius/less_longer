@@ -47,7 +47,7 @@ class SlugForm extends React.Component {
 			}));
 
 			router.replace(`/s/${data.code}`);
-		} catch (error) {
+		} catch ({ error }) {
 			this.setState(() => ({
 				error
 			}));
