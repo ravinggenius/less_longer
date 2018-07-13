@@ -2,6 +2,7 @@ import express from 'express';
 
 import asJSON from '../../asJSON';
 import { protect } from '../../checkCapabilities';
+import config from '../../config';
 
 import * as Slug from '../model';
 import * as SLUG from '../model/capabilities';
@@ -13,9 +14,13 @@ export default (app) => {
 		const slugs = await Slug.list();
 
 		res.format({
-			html: () => app.render(req, res, '/s', { slugs }),
+			html: () => app.render(req, res, '/s', {
+				baseUrl: config.baseUrl,
+				slugs
+			}),
 			json: () => res.json({
-				data: slugs
+				baseUrl: config.baseUrl,
+				slugs
 			})
 		});
 	});
@@ -30,7 +35,8 @@ export default (app) => {
 			res.format({
 				html: () => res.redirect(`/s/${slug.code}`),
 				json: () => res.status(wasCreated ? 201 : 200).json({
-					data: slug
+					baseUrl: config.baseUrl,
+					slug
 				})
 			});
 		} catch (error) {
@@ -46,14 +52,18 @@ export default (app) => {
 		}
 	});
 
-	routes.get('/s/:slugCode', protect(SLUG.read), async (req, res, next) => {
+	routes.get('/s/:slugCode', protect(SLUG.read), async (req, res) => {
 		const slug = await Slug.get(req.params.slugCode);
 
 		res.format({
 			html: () => app.render(req, res, '/s', {
-				slugs: [ slug ]
+				baseUrl: config.baseUrl,
+				slug
 			}),
-			json: next
+			json: () => res.json({
+				baseUrl: config.baseUrl,
+				slug
+			})
 		});
 	});
 
