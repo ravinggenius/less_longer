@@ -9,8 +9,12 @@ const Input = styled.input`
 	font-size: 20px;
 	width: 100%;
 
-	&:hover,
-	&:focus {
+	&:disabled {
+		background-color: #DDDDDD;
+	}
+
+	&:enabled:hover,
+	&:enabled:focus {
 		background-color: #FFFFFF;
 		border-color: #333333;
 		outline-style: none;
@@ -28,6 +32,7 @@ const LabelText = styled.span`
 `;
 
 const Wrapper = ({
+	disabled = false,
 	label,
 	name,
 	onChange,
@@ -37,10 +42,14 @@ const Wrapper = ({
 	...ambient
 }) => <Label {...ambient}>
 	<LabelText>{label}</LabelText>
-	<Input {...{ name, onChange, required, type }} defaultValue={value} />
+	<Input
+		{...{ disabled, name, onChange, required, type }}
+		defaultValue={value}
+	/>
 </Label>;
 
 Wrapper.propTypes = {
+	disabled: PropTypes.bool,
 	label: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,

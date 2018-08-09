@@ -6,6 +6,7 @@ import { fetchAuthenticatedBody } from '../client/browser';
 
 import Form, { Button } from './form';
 import Input from './input';
+import Toggle from './toggle';
 
 const URLInput = styled(Input)`
 	> input {
@@ -15,6 +16,7 @@ const URLInput = styled(Input)`
 
 class SlugForm extends React.Component {
 	state = {
+		customize: false,
 		displayCode: '',
 		displayURL: ''
 	}
@@ -25,9 +27,16 @@ class SlugForm extends React.Component {
 		}));
 	}
 
+	handleToggle = (fieldname) => () => {
+		this.setState((previous) => ({
+			[fieldname]: !previous[fieldname]
+		}));
+	}
+
 	handleSubmit = async (event) => {
 		const { router } = this.props;
 		const {
+			customize,
 			displayCode,
 			displayURL
 		} = this.state;
@@ -36,7 +45,7 @@ class SlugForm extends React.Component {
 
 		try {
 			const { data } = await fetchAuthenticatedBody('POST', '/s', {
-				code: displayCode,
+				code: customize ? displayCode : '',
 				url: displayURL
 			});
 
@@ -56,6 +65,7 @@ class SlugForm extends React.Component {
 
 	render() {
 		const {
+			customize,
 			displayCode,
 			displayURL,
 			error
@@ -76,14 +86,28 @@ class SlugForm extends React.Component {
 			/>
 
 			<Input
+				disabled={!customize}
 				label="Code"
 				name="code"
 				onChange={this.handleChange('displayCode')}
 				value={displayCode}
 			/>
 
-			<Button type="submit">Lessify!</Button>
-		</Form>;
+			<div css={`
+				align-items: center;
+				display: flex;
+			`}>
+				<Toggle
+					label="Customize Code?"
+					multiSelect
+					name="customize"
+					onChange={this.handleToggle('customize')}
+					value={customize}
+				/>
+
+				<Button type="submit">Lessify!</Button>
+			</div>
+		</Form >;
 	}
 }
 
