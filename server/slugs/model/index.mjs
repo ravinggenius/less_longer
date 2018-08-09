@@ -86,11 +86,7 @@ export const get = (code) => db.oneOrNone(
 	{ code }
 );
 
-export const loadUrl = (code) => db.oneOrNone(
-	sql.findByCode,
-	{ code },
-	slug => slug ? slug.url : null
-);
+export const loadUrl = (code) => get(code).then(slug => slug ? slug.url : null);
 
 export const randomCode = async (
 	targetLength = config.slugCodeMinLength,
