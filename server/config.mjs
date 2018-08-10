@@ -24,6 +24,10 @@ const configNumber = ifUndefined => ({
 export default ConfConf.configure(process.env, {
 	allowMultipleUsers: configBoolean('false'),
 
+	baseUrl: {
+		ifUndefined: 'http://localhost:3000'
+	},
+
 	cookieSecret: {
 		ifUndefined: 'replace for production'
 	},
@@ -45,6 +49,23 @@ export default ConfConf.configure(process.env, {
 	},
 
 	port: configNumber('3000'),
+
+	slugCodeMinLength: {
+		ifUndefined: '2',
+		filter: _ => {
+			const reply = Number.parseInt(_, 10);
+			if (reply < 2) {
+				throw new Error('`CODE_MIN_LENGTH` must be `2` or greater');
+			}
+			return reply;
+		}
+	},
+
+	slugCodePersistence: configNumber('10'),
+
+	slugCodePool: {
+		ifUndefined: '23456789abcdefghijkmnopqrstuvwxyz'
+	},
 
 	title: {
 		ifUndefined: 'Less Longer'

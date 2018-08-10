@@ -4,7 +4,7 @@ import React from 'react';
 import { fetchAuthenticatedBody, setToken } from '../../client/browser';
 import Form, { Button } from '../../components/form';
 import Input from '../../components/input';
-import Layout, { SmallBody } from '../../components/layouts/LinearLayout';
+import Layout from '../../components/layouts/LinearLayout';
 
 class LoginForm extends React.Component {
 	static getDerivedStateFromProps(
@@ -59,30 +59,28 @@ class LoginForm extends React.Component {
 		const { action, displayPassword, displayUsername, error } = this.state;
 
 		return <Layout title="Login">
-			<SmallBody>
-				<Form
-					{...{ action, error }}
-					method="post"
-					onSubmit={this.handleSubmit}
-				>
-					<Input
-						label="Username"
-						name="username"
-						onChange={this.handleChange('displayUsername')}
-						value={displayUsername}
-					/>
+			<Form
+				{...{ action, error }}
+				method="post"
+				onSubmit={this.handleSubmit}
+			>
+				<Input
+					label="Username"
+					name="username"
+					onChange={this.handleChange('displayUsername')}
+					value={displayUsername}
+				/>
 
-					<Input
-						label="Password"
-						name="password"
-						onChange={this.handleChange('displayPassword')}
-						type="password"
-						value={displayPassword}
-					/>
+				<Input
+					label="Password"
+					name="password"
+					onChange={this.handleChange('displayPassword')}
+					type="password"
+					value={displayPassword}
+				/>
 
-					<Button type="submit">Login</Button>
-				</Form>
-			</SmallBody>
+				<Button type="submit">Login</Button>
+			</Form>
 		</Layout>;
 	}
 }

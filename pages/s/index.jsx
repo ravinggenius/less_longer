@@ -2,16 +2,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { fetchAuthenticated } from '../../client/browser';
-import Layout, { Body, Header } from '../../components/layouts/LinearLayout';
+import Layout from '../../components/layouts/LinearLayout';
+import SlugForm from '../../components/slug_form';
+import SlugsList from '../../components/slug_list';
 import { H1, P } from '../../components/text';
 
 export default class SlugsIndex extends React.Component {
 	static defaultProps = {
+		baseUrl: '',
 		loading: true,
 		slugs: []
 	}
 
 	static propTypes = {
+		baseUrl: PropTypes.string.isRequired,
 		loading: PropTypes.bool,
 		slugs: PropTypes.arrayOf(PropTypes.shape({
 			code: PropTypes.string.isRequired,
@@ -23,39 +27,45 @@ export default class SlugsIndex extends React.Component {
 	static async getInitialProps({ req, query }) {
 		if (req) {
 			return {
+				baseUrl: query.baseUrl,
 				loading: false,
-				slugs: query.slugs
+				slugs: query.slug ? [ query.slug ] : query.slugs
 			};
 		}
 
-		const { data } = await fetchAuthenticated('GET', '/s');
+		if (query.slugCode) {
+			const { baseUrl, slug } = await fetchAuthenticated(
+				'GET',
+				`/s/${query.slugCode}`
+			);
 
-		return {
-			loading: false,
-			slugs: data.slugs
-		};
+			return {
+				baseUrl,
+				loading: false,
+				slugs: [ slug ]
+			};
+		} else {
+			const { baseUrl, slugs } = await fetchAuthenticated('GET', '/s');
+
+			return {
+				baseUrl,
+				loading: false,
+				slugs
+			};
+		}
 	}
 
 	render() {
-		const { loading, slugs } = this.props;
+		const { baseUrl, loading, slugs } = this.props;
 
 		if (loading) {
 			return <P>Loading slugs....</P>;
 		}
 
-		return <Layout title="Slugs">
-			<Header>
-				<H1>Shortened URLs</H1>
-			</Header>
+		return <Layout header={<H1>Shortened URLs</H1>} title="Slugs">
+			<SlugForm />
 
-			<Body>
-				{slugs.length ? <ul>
-					{slugs.map(({ id, code, url }) => <li key={id}>
-						<span>{code}</span>
-						<span>{url}</span>
-					</li>)}
-				</ul> : <P>No slugs to list</P>}
-			</Body>
+			<SlugsList {...{ baseUrl, slugs }} />
 		</Layout>;
 	}
 }

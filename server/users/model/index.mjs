@@ -1,13 +1,9 @@
 import bcrypt from 'bcryptjs';
 
 import config from '../../config';
-import { db, loadQuery } from '../../db';
+import { db, loadQueries } from '../../db';
 
-const sql = {
-	count: loadQuery('users/model/queries/count.sql'),
-	create: loadQuery('users/model/queries/create.sql'),
-	get: loadQuery('users/model/queries/get.sql')
-};
+const sql = loadQueries('users/model/queries');
 
 const USERNAME_PATTERN = /^[0-9A-Za-z_]+$/;
 const PASSWORD_MIN_LENGTH = 12;

@@ -12,7 +12,7 @@ import slugRoutes from './slugs/routes';
 import userRoutes from './users/routes';
 
 const app = nextjs({
-	dev: true
+	dev: config.nodeEnv !== 'production'
 });
 
 const handle = app.getRequestHandler();
