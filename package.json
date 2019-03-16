@@ -7,11 +7,11 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --ext .js --ext .jsx --ext .mjs --ignore-path .gitignore .",
+    "lint": "eslint --ext .js --ext .jsx --ignore-path .gitignore .",
     "migrate": "pg-bump --files server/db/migrations",
     "migrate:dev": "env-cmd development.env pg-bump --files server/db/migrations",
     "migrate:test": "env-cmd test.env pg-bump --files server/db/migrations",
-    "start": "node --experimental-modules server/index.mjs"
+    "start": "node --require esm server/index.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
@@ -27,6 +27,7 @@
     "dotenv": "^5.x.x",
     "emotion": "^9.x.x",
     "emotion-server": "^9.x.x",
+    "esm": "^3.x.x",
     "express": "^4.x.x",
     "express-jwt": "^5.x.x",
     "express-jwt-permissions": "^1.x.x",
