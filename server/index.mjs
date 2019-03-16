@@ -12,6 +12,9 @@ import slugRoutes from './slugs/routes';
 import userRoutes from './users/routes';
 
 const app = nextjs({
+	conf: {
+		useFileSystemPublicRoutes: false
+	},
 	dev: config.nodeEnv !== 'production'
 });
 
