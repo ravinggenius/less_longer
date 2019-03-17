@@ -2,7 +2,7 @@ import express from 'express';
 
 import * as Slug from '../../slugs/model';
 
-export default (_app) => {
+export default () => {
 	const routes = express.Router();
 
 	routes.get('/:slugCode', async (req, res, next) => {

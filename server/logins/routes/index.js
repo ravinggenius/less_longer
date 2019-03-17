@@ -19,7 +19,7 @@ export default (app) => {
 	routes.get('/l', ensureUnAuthenticated, (req, res) => {
 		res.format({
 			html: () => app.render(req, res, '/l', {
-				resume: req.query.resume
+				resume: req.query.resume || '/'
 			}),
 			json: () => res.status(406).end()
 		});
@@ -49,6 +49,7 @@ export default (app) => {
 			res.format({
 				html: () => app.render(req, res, '/l', {
 					error: asJSON(error),
+					resume: req.query.resume || '/',
 					username
 				}),
 				json: () => res.status(400).json({ error: asJSON(error) })

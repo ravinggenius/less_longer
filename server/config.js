@@ -1,5 +1,3 @@
-/* global URL */
-
 import ConfConf from 'conf_conf';
 import dotenv from 'dotenv';
 

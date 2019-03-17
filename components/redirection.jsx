@@ -1,8 +1,8 @@
+import styled from '@emotion/styled';
 import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon as FAIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'react-emotion';
 
 const Wrapper = styled.span`
 	color: #999999;

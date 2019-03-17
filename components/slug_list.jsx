@@ -1,7 +1,7 @@
+import styled from '@emotion/styled';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'react-emotion';
 
 import Redirection from './redirection';
 import { P } from './text';

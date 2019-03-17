@@ -1,6 +1,7 @@
+import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { withRouter } from 'next/router';
 import React from 'react';
-import styled from 'react-emotion';
 
 import { fetchAuthenticatedBody } from '../client/browser';
 
@@ -15,6 +16,10 @@ const URLInput = styled(Input)`
 `;
 
 class SlugForm extends React.Component {
+	static propTypes = {
+		router: PropTypes.shape({}).isRequired
+	}
+
 	state = {
 		customize: false,
 		displayCode: '',

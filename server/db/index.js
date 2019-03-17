@@ -1,5 +1,3 @@
-/* global URL */
-
 import { readdirSync } from 'fs';
 import { basename, extname } from 'path';
 import monitor from 'pg-monitor';
