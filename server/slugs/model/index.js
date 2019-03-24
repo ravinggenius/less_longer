@@ -2,6 +2,11 @@ import nano from 'nanoid/generate';
 
 import config from '../../config';
 import { db, loadQueries } from '../../db';
+import rootLogger from '../../logger';
+
+const logger = rootLogger.child({
+	namespace: 'server:slugs:model'
+});
 
 const sql = loadQueries('slugs/model/queries');
 
@@ -39,9 +44,19 @@ const validate = (code, url) => {
 	}
 };
 
-export const list = () => db.manyOrNone(sql.list);
+export const list = () => {
+	logger.debug('Calling `list`');
+
+	return db.manyOrNone(sql.list);
+};
 
 export const create = async (userId, code, url) => {
+	logger.debug({
+		userId,
+		code,
+		url
+	}, 'Calling `create`');
+
 	validate(code || '', url);
 
 	if (code) {
@@ -81,17 +96,24 @@ export const create = async (userId, code, url) => {
 	}
 };
 
-export const get = (code) => db.oneOrNone(
-	sql.findByCode,
-	{ code }
-);
+export const get = (code) => {
+	logger.debug({ code }, 'Calling `get`');
 
-export const loadUrl = (code) => get(code).then(slug => slug ? slug.url : null);
+	return db.oneOrNone(sql.findByCode, { code });
+}
+
+export const loadUrl = (code) => {
+	logger.debug({ code }, 'Calling `loadUrl`');
+
+	return get(code).then(slug => slug ? slug.url : null);
+}
 
 export const randomCode = async (
 	targetLength = config.slugCodeMinLength,
 	attempts = 0
 ) => {
+	logger.debug({ attempts, targetLength }, 'Calling `randomCode`');
+
 	if (attempts >= config.slugCodePersistence) {
 		return randomCode(targetLength + 1);
 	}

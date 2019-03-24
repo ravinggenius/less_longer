@@ -38,10 +38,6 @@ export default ConfConf.configure(process.env, {
 		ifUndefined: 'replace for production'
 	},
 
-	logFormat: {
-		ifUndefined: 'dev'
-	},
-
 	nodeEnv: {
 		ifUndefined: 'development'
 	},
