@@ -44,15 +44,6 @@ app.prepare().then(() => {
 	server.use(slugRoutes(app));
 	server.use(userRoutes(app));
 
-	// server.use((req, res) => res.format({
-	// 	html: () => res.sendStatus(404),
-	// 	json: () => res.status(404).json({
-	// 		error: {
-	// 			message: 'Not found'
-	// 		}
-	// 	})
-	// }));
-
 	server.get('*', handle);
 
 	server.listen(config.port, (error) => {
