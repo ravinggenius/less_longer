@@ -2,8 +2,8 @@ import express from 'express';
 import jwt from 'express-jwt';
 import buildPermissions from 'express-jwt-permissions';
 
-import config from '../config';
-import * as User from '../users/model';
+import config from '../../config';
+import * as User from '../../models/user';
 
 const guard = buildPermissions({
 	permissionsProperty: 'capabilities'

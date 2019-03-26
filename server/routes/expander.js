@@ -1,6 +1,6 @@
 import express from 'express';
 
-import * as Slug from '../../slugs/model';
+import * as Slug from '../models/slug';
 
 export default () => {
 	const routes = express.Router();

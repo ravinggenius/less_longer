@@ -5,10 +5,10 @@ import { db, loadQueries } from '../../db';
 import rootLogger from '../../logger';
 
 const logger = rootLogger.child({
-	namespace: 'server:slugs:model'
+	namespace: 'server:models:slug'
 });
 
-const sql = loadQueries('slugs/model/queries');
+const sql = loadQueries('models/slug/queries');
 
 const validate = (code, url) => {
 	const errors = [];

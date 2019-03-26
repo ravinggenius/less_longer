@@ -1,15 +1,14 @@
 import express from 'express';
 
-import asJSON from '../../asJSON';
-import { protect } from '../../checkCapabilities';
-import config from '../../config';
-import generateToken from '../../logins/routes/generateToken';
-import * as SLUG from '../../slugs/model/capabilities';
+import { protect } from './middlewares/checkCapabilities';
+import { ensureUserCreatable } from './middlewares/ensureUserCreatable';
 
-import * as User from '../model';
-import * as USER from '../model/capabilities';
-
-import { ensureUserCreatable } from './ensureUserCreatable';
+import asJSON from '../asJSON';
+import config from '../config';
+import * as Session from '../models/session';
+import * as SLUG from '../models/slug/capabilities';
+import * as User from '../models/user';
+import * as USER from '../models/user/capabilities';
 
 export default (app) => {
 	const routes = express.Router();
@@ -47,7 +46,7 @@ export default (app) => {
 				USER.write
 			]);
 
-			const token = await generateToken(username, password);
+			const token = await Session.generateToken(username, password);
 
 			res.cookie('bearerToken', token, {
 				httpOnly: true,

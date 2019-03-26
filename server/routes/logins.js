@@ -1,9 +1,8 @@
 import express from 'express';
 
-import asJSON from '../../asJSON';
-import config from '../../config';
-
-import generateToken from './generateToken';
+import asJSON from '../asJSON';
+import config from '../config';
+import * as Session from '../models/session';
 
 export default (app) => {
 	const routes = express.Router();
@@ -29,7 +28,7 @@ export default (app) => {
 		const { username, password } = req.body;
 
 		try {
-			const token = await generateToken(username, password);
+			const token = await Session.generateToken(username, password);
 
 			res.cookie('bearerToken', token, {
 				httpOnly: true,

@@ -5,10 +5,10 @@ import { db, loadQueries } from '../../db';
 import rootLogger from '../../logger';
 
 const logger = rootLogger.child({
-	namespace: 'server:users:model'
+	namespace: 'server:models:user'
 });
 
-const sql = loadQueries('users/model/queries');
+const sql = loadQueries('models/user/queries');
 
 const USERNAME_PATTERN = /^[0-9A-Za-z_]+$/;
 const PASSWORD_MIN_LENGTH = 12;

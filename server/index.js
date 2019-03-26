@@ -6,12 +6,12 @@ import helmet from 'helmet';
 import nextjs from 'next';
 
 import config from './config';
-import expanderRoutes from './expander/routes';
+import expanderRoutes from './routes/expander';
 import rootLogger from './logger';
 import roarr from './logger/middleware'
-import loginRoutes from './logins/routes';
-import slugRoutes from './slugs/routes';
-import userRoutes from './users/routes';
+import loginRoutes from './routes/logins';
+import slugRoutes from './routes/slugs';
+import userRoutes from './routes/users';
 
 const logger = rootLogger.child({
 	namespace: 'server'
