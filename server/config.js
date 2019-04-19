@@ -19,28 +19,24 @@ const configInteger = ifUndefined => ({
 	ifUndefined
 });
 
+const configString = ifUndefined => ({
+	ifUndefined
+});
+
 export default ConfConf.configure(process.env, {
 	allowMultipleUsers: configBoolean('false'),
 
-	baseUrl: {
-		ifUndefined: 'http://localhost:3000'
-	},
+	baseUrl: configString('http://localhost:3000'),
 
-	cookieSecret: {
-		ifUndefined: 'replace for production'
-	},
+	cookieSecret: configString('replace for production'),
 
 	databaseUrl: {},
 
 	hashStrength: configInteger('12'),
 
-	jwtSecret: {
-		ifUndefined: 'replace for production'
-	},
+	jwtSecret: configString('replace for production'),
 
-	nodeEnv: {
-		ifUndefined: 'development'
-	},
+	nodeEnv: configString('development'),
 
 	port: configInteger('3000'),
 
@@ -57,13 +53,9 @@ export default ConfConf.configure(process.env, {
 
 	slugCodePersistence: configInteger('10'),
 
-	slugCodePool: {
-		ifUndefined: '23456789abcdefghijkmnopqrstuvwxyz'
-	},
+	slugCodePool: configString('23456789abcdefghijkmnopqrstuvwxyz'),
 
-	title: {
-		ifUndefined: 'Less Longer'
-	},
+	title: configString('Less Longer'),
 
 	tokenExpirationSeconds: configInteger('3600'),
 
