@@ -31,7 +31,9 @@ monitor.setLog((message, info) => {
 	info.display = false;
 });
 
-const initOptions = {};
+const initOptions = {
+	capSQL: true
+};
 
 monitor.attach(initOptions);
 
