@@ -14,7 +14,7 @@ const configBoolean = ifUndefined => ({
 	set: [ 'true', 'false' ]
 });
 
-const configNumber = ifUndefined => ({
+const configInteger = ifUndefined => ({
 	filter: _ => Number.parseInt(_, 10),
 	ifUndefined
 });
@@ -32,7 +32,7 @@ export default ConfConf.configure(process.env, {
 
 	databaseUrl: {},
 
-	hashStrength: configNumber('12'),
+	hashStrength: configInteger('12'),
 
 	jwtSecret: {
 		ifUndefined: 'replace for production'
@@ -42,7 +42,7 @@ export default ConfConf.configure(process.env, {
 		ifUndefined: 'development'
 	},
 
-	port: configNumber('3000'),
+	port: configInteger('3000'),
 
 	slugCodeMinLength: {
 		ifUndefined: '2',
@@ -55,7 +55,7 @@ export default ConfConf.configure(process.env, {
 		}
 	},
 
-	slugCodePersistence: configNumber('10'),
+	slugCodePersistence: configInteger('10'),
 
 	slugCodePool: {
 		ifUndefined: '23456789abcdefghijkmnopqrstuvwxyz'
@@ -65,7 +65,7 @@ export default ConfConf.configure(process.env, {
 		ifUndefined: 'Less Longer'
 	},
 
-	tokenExpirationSeconds: configNumber('3600'),
+	tokenExpirationSeconds: configInteger('3600'),
 
 	useSecureCookies: configBoolean('false')
 });
