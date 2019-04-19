@@ -4,7 +4,7 @@
 
 Ensure required environment variables are defined, then run:
 
-```bash
+```shell
 npm run start
 ```
 
