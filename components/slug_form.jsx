@@ -5,9 +5,10 @@ import React from 'react';
 
 import { fetchAuthenticatedBody } from '../client/browser';
 
-import Form, { Button } from './form';
-import Input from './input';
-import Toggle from './toggle';
+import Button from './form/Button';
+import Form from './form/form';
+import Input from './form/input';
+import Toggle from './form/toggle';
 
 const URLInput = styled(Input)`
 	> input {

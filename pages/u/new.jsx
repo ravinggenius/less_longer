@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { fetchAuthenticatedBody, setToken } from '../../client/browser';
-import Form, { Button } from '../../components/form';
-import Input from '../../components/input';
+import Button from '../../components/form/Button';
+import Form from '../../components/form/form';
+import Input from '../../components/form/input';
 import Layout from '../../components/layouts/LinearLayout';
 
 class UserCreateForm extends React.Component {

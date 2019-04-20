@@ -2,28 +2,10 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Errors from './feedback';
-import { P } from './text';
+import Errors from '../feedback';
+import { P } from '../text';
 
-export const Button = styled.button`
-	background-color: inherit;
-	border: 1px solid #999999;
-	border-radius: 2px;
-	cursor: pointer;
-	font-size: 14px;
-
-	&:focus,
-	&:hover {
-		background-color: #FFFFFF;
-		border-color: #333333;
-		outline-style: none;
-	}
-`;
-
-Button.propTypes = {
-	children: PropTypes.node.isRequired,
-	type: PropTypes.string
-};
+import Button from './Button';
 
 const Form = styled.form`
 	display: flex;
