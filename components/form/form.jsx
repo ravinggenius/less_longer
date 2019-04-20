@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Errors from '../feedback';
-import { P } from '../text';
+import Errors from '../Errors';
+import { P } from '../Text';
 
 import Button from './Button';
 

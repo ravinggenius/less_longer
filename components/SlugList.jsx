@@ -3,8 +3,8 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Redirection from './redirection';
-import { P } from './text';
+import Redirection from './Redirection';
+import { P } from './Text';
 
 const UL = styled.ul`
 	display: grid;

@@ -5,12 +5,12 @@ import React from 'react';
 
 import { fetchAuthenticated, fetchAuthenticatedBody } from '../../client/browser';
 import Button from '../../components/form/Button';
-import Form from '../../components/form/form';
-import Input from '../../components/form/input';
-import Toggle from '../../components/form/toggle';
+import Form from '../../components/form/Form';
+import Input from '../../components/form/Input';
+import Toggle from '../../components/form/Toggle';
 import Layout from '../../components/layouts/LinearLayout';
-import SlugsList from '../../components/slug_list';
-import { H1, P } from '../../components/text';
+import SlugsList from '../../components/SlugList';
+import { H1, P } from '../../components/Text';
 
 const URLInput = styled(Input)`
 	> input {

@@ -4,8 +4,8 @@ import React from 'react';
 
 import { fetchAuthenticatedBody, setToken } from '../../client/browser';
 import Button from '../../components/form/Button';
-import Form from '../../components/form/form';
-import Input from '../../components/form/input';
+import Form from '../../components/form/Form';
+import Input from '../../components/form/Input';
 import Layout from '../../components/layouts/LinearLayout';
 
 class UserCreateForm extends React.Component {
