@@ -1,9 +1,20 @@
 import jwt from 'jsonwebtoken';
 
 import config from '../../config';
-import * as User from '../../users/model';
+import rootLogger from '../../logger';
 
-export default async (username, password) => {
+import * as User from '../user';
+
+const logger = rootLogger.child({
+	namespace: 'server:models:session'
+});
+
+export const generateToken = async (username, password) => {
+	logger.debug({
+		username,
+		password: '[redacted]'
+	}, 'calling `generateToken`');
+
 	const {
 		capabilities,
 		isAuthenticated,

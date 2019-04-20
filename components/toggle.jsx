@@ -1,8 +1,8 @@
+import styled from '@emotion/styled';
 import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon as FAIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'react-emotion';
 
 const Label = styled.label`
 	align-items: center;

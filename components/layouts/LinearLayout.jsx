@@ -1,7 +1,7 @@
+import styled from '@emotion/styled';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import styled from 'react-emotion';
 
 const Inner = styled.div`
 	display: grid;

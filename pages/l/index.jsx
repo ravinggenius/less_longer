@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { withRouter } from 'next/router';
 import React from 'react';
 
@@ -20,6 +21,12 @@ class LoginForm extends React.Component {
 
 	static getInitialProps({ query }) {
 		return query;
+	}
+
+	static propTypes = {
+		resume: PropTypes.string.isRequired,
+		router: PropTypes.shape({}).isRequired,
+		username: PropTypes.string
 	}
 
 	state = {

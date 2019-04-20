@@ -1,18 +1,41 @@
-/* global URL */
-
 import { readdirSync } from 'fs';
 import { basename, extname } from 'path';
 import monitor from 'pg-monitor';
 import pgp from 'pg-promise';
 
 import config from '../config';
+import rootLogger from '../logger';
 
-const initOptions = {};
+const logger = rootLogger.child({
+	namespace: 'server:database'
+});
 
-if (config.logFormat !== 'disabled') {
-	monitor.setTheme('invertedMonochrome');
-	monitor.attach(initOptions);
-}
+monitor.setLog((message, info) => {
+	const { event, text, ctx } = info;
+
+	switch (event) {
+		case 'connect':
+			logger.trace({ event, text, ctx }, message);
+			break;
+		case 'disconnect':
+			logger.trace({ event, text, ctx }, message);
+			break;
+		case 'query':
+			logger.debug({ event, text, ctx }, message);
+			break;
+		default:
+			logger.debug({ event, text, ctx }, message);
+			break;
+	}
+
+	info.display = false;
+});
+
+const initOptions = {
+	capSQL: true
+};
+
+monitor.attach(initOptions);
 
 const normalize = path => new URL(
 	path,

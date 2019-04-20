@@ -1,9 +1,8 @@
 import express from 'express';
 
-import asJSON from '../../asJSON';
-import config from '../../config';
-
-import generateToken from './generateToken';
+import asJSON from '../asJSON';
+import config from '../config';
+import * as Session from '../models/session';
 
 export default (app) => {
 	const routes = express.Router();
@@ -19,7 +18,7 @@ export default (app) => {
 	routes.get('/l', ensureUnAuthenticated, (req, res) => {
 		res.format({
 			html: () => app.render(req, res, '/l', {
-				resume: req.query.resume
+				resume: req.query.resume || '/'
 			}),
 			json: () => res.status(406).end()
 		});
@@ -29,7 +28,7 @@ export default (app) => {
 		const { username, password } = req.body;
 
 		try {
-			const token = await generateToken(username, password);
+			const token = await Session.generateToken(username, password);
 
 			res.cookie('bearerToken', token, {
 				httpOnly: true,
@@ -49,6 +48,7 @@ export default (app) => {
 			res.format({
 				html: () => app.render(req, res, '/l', {
 					error: asJSON(error),
+					resume: req.query.resume || '/',
 					username
 				}),
 				json: () => res.status(400).json({ error: asJSON(error) })

@@ -1,11 +1,11 @@
 import express from 'express';
 
-import asJSON from '../../asJSON';
-import { protect } from '../../checkCapabilities';
-import config from '../../config';
+import { protect } from './middlewares/checkCapabilities';
 
-import * as Slug from '../model';
-import * as SLUG from '../model/capabilities';
+import asJSON from '../asJSON';
+import config from '../config';
+import * as Slug from '../models/slug';
+import * as SLUG from '../models/slug/capabilities';
 
 export default (app) => {
 	const routes = express.Router();

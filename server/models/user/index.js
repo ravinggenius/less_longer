@@ -2,8 +2,13 @@ import bcrypt from 'bcryptjs';
 
 import config from '../../config';
 import { db, loadQueries } from '../../db';
+import rootLogger from '../../logger';
 
-const sql = loadQueries('users/model/queries');
+const logger = rootLogger.child({
+	namespace: 'server:models:user'
+});
+
+const sql = loadQueries('models/user/queries');
 
 const USERNAME_PATTERN = /^[0-9A-Za-z_]+$/;
 const PASSWORD_MIN_LENGTH = 12;
@@ -43,6 +48,11 @@ const validate = (username, password, passwordConfirmation) => {
 };
 
 export const authenticate = async (username, password) => {
+	logger.debug({
+		username,
+		password: '[redacted]'
+	}, 'Calling `authenticate`');
+
 	const user = await db.oneOrNone(sql.get, { username });
 
 	if (user) {
@@ -65,11 +75,11 @@ export const authenticate = async (username, password) => {
 	}
 };
 
-export const count = () => db.one(
-	sql.count,
-	null,
-	({ count }) => Number.parseInt(count, 10)
-);
+export const count = () => {
+	logger.debug('Calling `count`');
+
+	return db.one(sql.count, null, ({ count }) => Number.parseInt(count, 10));
+}
 
 export const create = async (
 	username,
@@ -77,6 +87,13 @@ export const create = async (
 	passwordConfirmation,
 	capabilities
 ) => {
+	logger.debug({
+		username,
+		password: '[redacted]',
+		passwordConfirmation: '[redacted]',
+		capabilities
+	}, 'Calling `create`');
+
 	validate(username, password || '', passwordConfirmation);
 
 	const salt = await bcrypt.genSalt(config.hashStrength);
@@ -89,4 +106,8 @@ export const create = async (
 	);
 };
 
-export const get = username => db.one(sql.get, { username });
+export const get = username => {
+	logger.debug({ username }, 'Calling `get`');
+
+	return db.one(sql.get, { username });
+};

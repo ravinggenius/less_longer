@@ -9,7 +9,9 @@ import Layout from '../../components/layouts/LinearLayout';
 
 class UserCreateForm extends React.Component {
 	static propTypes = {
-		action: PropTypes.string.isRequired
+		action: PropTypes.string.isRequired,
+		router: PropTypes.shape({}).isRequired,
+		username: PropTypes.string
 	}
 
 	static getDerivedStateFromProps(

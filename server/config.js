@@ -1,11 +1,9 @@
-/* global URL */
-
 import ConfConf from 'conf_conf';
 import dotenv from 'dotenv';
 
 dotenv.config({
 	path: new URL(
-		`../.env-${process.env.NODE_ENV || 'development'}`,
+		`../${process.env.NODE_ENV || 'development'}.env`,
 		import.meta.url
 	).pathname
 });
@@ -16,39 +14,31 @@ const configBoolean = ifUndefined => ({
 	set: [ 'true', 'false' ]
 });
 
-const configNumber = ifUndefined => ({
+const configInteger = ifUndefined => ({
 	filter: _ => Number.parseInt(_, 10),
+	ifUndefined
+});
+
+const configString = ifUndefined => ({
 	ifUndefined
 });
 
 export default ConfConf.configure(process.env, {
 	allowMultipleUsers: configBoolean('false'),
 
-	baseUrl: {
-		ifUndefined: 'http://localhost:3000'
-	},
+	baseUrl: configString('http://localhost:3000'),
 
-	cookieSecret: {
-		ifUndefined: 'replace for production'
-	},
+	cookieSecret: configString('replace for production'),
 
 	databaseUrl: {},
 
-	hashStrength: configNumber('12'),
+	hashStrength: configInteger('12'),
 
-	jwtSecret: {
-		ifUndefined: 'replace for production'
-	},
+	jwtSecret: configString('replace for production'),
 
-	logFormat: {
-		ifUndefined: 'dev'
-	},
+	nodeEnv: configString('development'),
 
-	nodeEnv: {
-		ifUndefined: 'development'
-	},
-
-	port: configNumber('3000'),
+	port: configInteger('3000'),
 
 	slugCodeMinLength: {
 		ifUndefined: '2',
@@ -61,17 +51,13 @@ export default ConfConf.configure(process.env, {
 		}
 	},
 
-	slugCodePersistence: configNumber('10'),
+	slugCodePersistence: configInteger('10'),
 
-	slugCodePool: {
-		ifUndefined: '23456789abcdefghijkmnopqrstuvwxyz'
-	},
+	slugCodePool: configString('23456789abcdefghijkmnopqrstuvwxyz'),
 
-	title: {
-		ifUndefined: 'Less Longer'
-	},
+	title: configString('Less Longer'),
 
-	tokenExpirationSeconds: configNumber('3600'),
+	tokenExpirationSeconds: configInteger('3600'),
 
 	useSecureCookies: configBoolean('false')
 });

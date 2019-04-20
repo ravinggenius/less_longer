@@ -1,6 +1,5 @@
 import config from '../../config';
-
-import * as User from '../model';
+import * as User from '../../models/user';
 
 export const ensureUserCreatable = async (req, res, next) => {
 	const count = await User.count();
