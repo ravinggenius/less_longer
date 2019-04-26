@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Redirection from './Redirection';
-import { P } from './Text';
+import P from './text/P';
 
 const UL = styled.ul`
 	display: grid;

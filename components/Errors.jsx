@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { P } from './Text';
+import P from './text/P';
 
 const Errors = ({ details = [], message }) => <div>
 	<P>{message}</P>

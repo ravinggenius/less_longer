@@ -10,7 +10,8 @@ import Input from '../../components/form/Input';
 import Toggle from '../../components/form/Toggle';
 import Layout from '../../components/layouts/LinearLayout';
 import SlugsList from '../../components/SlugList';
-import { H1, P } from '../../components/Text';
+import H1 from '../../components/text/H1';
+import P from '../../components/text/P';
 
 const URLInput = styled(Input)`
 	> input {

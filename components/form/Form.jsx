@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Errors from '../Errors';
-import { P } from '../Text';
+import P from '../text/P';
 
 import Button from './Button';
 
