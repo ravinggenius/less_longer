@@ -32,19 +32,19 @@ const Wrapper = ({
 	value = false,
 	...ambient
 }) => <Label {...ambient}>
-	<Input
-		{...{ value, name, onChange, required }}
-		tabIndex={-1}
-		type={multiSelect ? 'checkbox' : 'radio'}
-	/>
-	<Check
-		aria-checked={value}
-		icon={value ? faCheckSquare : faSquare}
-		role="checkbox"
-		tabIndex={0}
-	/>
-	<LabelText>{label}</LabelText>
-</Label >;
+		<Input
+			{...{ value, name, onChange, required }}
+			tabIndex={-1}
+			type={multiSelect ? 'checkbox' : 'radio'}
+		/>
+		<Check
+			aria-checked={value}
+			icon={value ? faCheckSquare : faSquare}
+			role="checkbox"
+			tabIndex={0}
+		/>
+		<LabelText>{label}</LabelText>
+	</Label >;
 
 Wrapper.propTypes = {
 	label: PropTypes.string.isRequired,

@@ -142,7 +142,7 @@ SlugsIndex.getInitialProps = async ({ req, query }) => {
 		return {
 			baseUrl: query.baseUrl,
 			loading: false,
-			slugs: query.slug ? [ query.slug ] : query.slugs
+			slugs: query.slug ? [query.slug] : query.slugs
 		};
 	}
 
@@ -155,7 +155,7 @@ SlugsIndex.getInitialProps = async ({ req, query }) => {
 		return {
 			baseUrl,
 			loading: false,
-			slugs: [ slug ]
+			slugs: [slug]
 		};
 	} else {
 		const { baseUrl, slugs } = await fetchAuthenticated('GET', '/s');

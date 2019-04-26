@@ -64,7 +64,7 @@ export const create = async (userId, code, url) => {
 
 		if (slug) {
 			if (slug.url === url) {
-				return [ slug, false ];
+				return [slug, false];
 			} else {
 				throw new Error(`Code \`${code}\` is not unique`);
 			}
@@ -75,13 +75,13 @@ export const create = async (userId, code, url) => {
 				url
 			});
 
-			return [ newSlug, true ];
+			return [newSlug, true];
 		}
 	} else {
 		const slug = await db.oneOrNone(sql.findByURL, { userId, url });
 
 		if (slug) {
-			return [ slug, false ];
+			return [slug, false];
 		} else {
 			const newCode = await randomCode();
 
@@ -91,7 +91,7 @@ export const create = async (userId, code, url) => {
 				url
 			});
 
-			return [ newSlug, true ];
+			return [newSlug, true];
 		}
 	}
 };
