@@ -1,24 +1,19 @@
 import { Global, css } from '@emotion/core';
 import NextApp, { Container } from 'next/app';
+import Head from 'next/head';
 import React from 'react';
 
 class App extends NextApp {
-	static async getInitialProps({ Component, ctx }) {
-		const pageProps = Component.getInitialProps
-			? await Component.getInitialProps(ctx)
-			: {};
-
-		return { pageProps };
-	}
-
 	render() {
 		const { Component, pageProps } = this.props;
 
 		return (
 			<Container>
-				{/* <meta charSet="UTF-8" /> */}
+				<Head>
+					<meta charSet="UTF-8" />
 
-				{/* <title>Less Longer</title> */}
+					<title>Less Longer</title>
+				</Head>
 
 				<Global
 					styles={css`
