@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { withRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { fetchAuthenticated, fetchAuthenticatedBody } from '../../client/browser';
 import Button from '../../components/form/Button';
@@ -19,88 +19,63 @@ const URLInput = styled(Input)`
 	}
 `;
 
-class SlugForm extends React.Component {
-	static propTypes = {
-		router: PropTypes.shape({}).isRequired
-	}
+const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, router, slugs }) => {
+	const [error, setError] = useState(errorDefault);
 
-	state = {
-		customize: false,
-		displayCode: '',
-		displayURL: ''
-	}
+	const [customize, setCustomize] = useState(false);
+	const [code, setCode] = useState('')
+	const [url, setURL] = useState('')
 
-	handleChange = (fieldname) => ({ target: { value } }) => {
-		this.setState(() => ({
-			[fieldname]: value
-		}));
-	}
-
-	handleToggle = (fieldname) => () => {
-		this.setState((previous) => ({
-			[fieldname]: !previous[fieldname]
-		}));
-	}
-
-	handleSubmit = async (event) => {
-		const { router } = this.props;
-		const {
-			customize,
-			displayCode,
-			displayURL
-		} = this.state;
-
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		try {
 			const { data } = await fetchAuthenticatedBody('POST', '/s', {
-				code: customize ? displayCode : '',
-				url: displayURL
+				code: customize ? code : '',
+				url: url
 			});
 
-			this.setState(() => ({
-				displayCode: '',
-				displayURL: '',
-				error: null
-			}));
+			setError(null);
+
+			setCode('')
+			setURL('')
 
 			router.replace(`/s/${data.code}`);
 		} catch ({ error }) {
-			this.setState(() => ({
-				error
-			}));
+			setError(error);
 		}
+	};
+
+	if (loading) {
+		return (
+			<Layout header={<H1>Shortened URLs</H1>} title="Slugs">
+				<P>Loading slugs....</P>
+			</Layout>
+		);
 	}
 
-	render() {
-		const {
-			customize,
-			displayCode,
-			displayURL,
-			error
-		} = this.state;
-
-		return (
+	return (
+		<Layout header={<H1>Shortened URLs</H1>} title="Slugs">
 			<Form
 				{...{ error }}
 				action="/s"
 				method="post"
-				onSubmit={this.handleSubmit}
+				onSubmit={handleSubmit}
 			>
 				<URLInput
 					label="URL"
 					name="url"
-					onChange={this.handleChange('displayURL')}
+					onChange={({ target: { value } }) => setURL(value)}
 					type="url"
-					value={displayURL}
+					value={url}
 				/>
 
 				<Input
 					disabled={!customize}
 					label="Code"
 					name="code"
-					onChange={this.handleChange('displayCode')}
-					value={displayCode}
+					onChange={({ target: { value } }) => setCode(value)}
+					value={code}
 				/>
 
 				<div css={`
@@ -111,38 +86,20 @@ class SlugForm extends React.Component {
 						label="Customize Code?"
 						multiSelect
 						name="customize"
-						onChange={this.handleToggle('customize')}
+						onChange={({ target: { checked } }) => setCustomize(checked)}
 						value={customize}
 					/>
 
 					<Button type="submit">Lessify!</Button>
 				</div>
 			</Form>
-		);
-	}
-}
-
-const SlugsIndex = ({ baseUrl, loading, router, slugs }) => {
-	if (loading) {
-		return <P>Loading slugs....</P>;
-	}
-
-	return (
-		<Layout header={<H1>Shortened URLs</H1>} title="Slugs">
-			<SlugForm {...{ router }} />
 
 			<SlugsList {...{ baseUrl, slugs }} />
 		</Layout>
 	);
 };
 
-SlugsIndex.defaultProps = {
-	baseUrl: '',
-	loading: true,
-	slugs: []
-};
-
-SlugsIndex.getInitialProps = async ({ req, query }) => {
+SlugsIndexPage.getInitialProps = async ({ req, query }) => {
 	if (req) {
 		return {
 			baseUrl: query.baseUrl,
@@ -173,7 +130,7 @@ SlugsIndex.getInitialProps = async ({ req, query }) => {
 	}
 };
 
-SlugsIndex.propTypes = {
+SlugsIndexPage.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
 	loading: PropTypes.bool,
 	router: PropTypes.shape({}).isRequired,
@@ -184,4 +141,4 @@ SlugsIndex.propTypes = {
 	})).isRequired
 };
 
-export default withRouter(SlugsIndex);
+export default withRouter(SlugsIndexPage);
