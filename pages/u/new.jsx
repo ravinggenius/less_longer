@@ -80,40 +80,42 @@ class UserCreateForm extends React.Component {
 			error
 		} = this.state;
 
-		return <Layout title="Create User">
-			<Form
-				{...{ action, error }}
-				method="post"
-				onSubmit={this.handleSubmit}
-			>
-				<Input
-					label="Username"
-					name="username"
-					onChange={this.handleChange('displayUsername')}
-					value={displayUsername}
-				/>
+		return (
+			<Layout title="Create User">
+				<Form
+					{...{ action, error }}
+					method="post"
+					onSubmit={this.handleSubmit}
+				>
+					<Input
+						label="Username"
+						name="username"
+						onChange={this.handleChange('displayUsername')}
+						value={displayUsername}
+					/>
 
-				<Input
-					label="Password"
-					name="password"
-					onChange={this.handleChange('displayPassword')}
-					type="password"
-					value={displayPassword}
-				/>
+					<Input
+						label="Password"
+						name="password"
+						onChange={this.handleChange('displayPassword')}
+						type="password"
+						value={displayPassword}
+					/>
 
-				<Input
-					label="Confirm"
-					name="passwordConfirmation"
-					onChange={this.handleChange(
-						'displayPasswordConfirmation'
-					)}
-					type="password"
-					value={displayPasswordConfirmation}
-				/>
+					<Input
+						label="Confirm"
+						name="passwordConfirmation"
+						onChange={this.handleChange(
+							'displayPasswordConfirmation'
+						)}
+						type="password"
+						value={displayPasswordConfirmation}
+					/>
 
-				<Button type="submit">Create User</Button>
-			</Form>
-		</Layout>;
+					<Button type="submit">Create User</Button>
+				</Form>
+			</Layout>
+		);
 	}
 }
 

@@ -40,13 +40,15 @@ const Wrapper = ({
 	type = 'text',
 	value,
 	...ambient
-}) => <Label {...ambient}>
-		<LabelText>{label}</LabelText>
-		<Input
-			{...{ disabled, name, onChange, required, type }}
-			defaultValue={value}
-		/>
-	</Label>;
+}) => (
+		<Label {...ambient}>
+			<LabelText>{label}</LabelText>
+			<Input
+				{...{ disabled, name, onChange, required, type }}
+				defaultValue={value}
+			/>
+		</Label>
+	);
 
 Wrapper.propTypes = {
 	disabled: PropTypes.bool,

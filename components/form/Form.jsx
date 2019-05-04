@@ -27,11 +27,13 @@ const Wrapper = ({
 	method,
 	onSubmit,
 	...ambient
-}) => <Form {...{ action, method, onSubmit }} {...ambient}>
+}) => (
+	<Form {...{ action, method, onSubmit }} {...ambient}>
 		{error && <Errors {...error} />}
 
 		{children}
-	</Form>;
+	</Form>
+);
 
 Wrapper.propTypes = {
 	action: PropTypes.string.isRequired,

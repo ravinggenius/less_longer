@@ -66,30 +66,32 @@ class LoginForm extends React.Component {
 	render() {
 		const { action, displayPassword, displayUsername, error } = this.state;
 
-		return <Layout title="Login">
-			<Form
-				{...{ action, error }}
-				method="post"
-				onSubmit={this.handleSubmit}
-			>
-				<Input
-					label="Username"
-					name="username"
-					onChange={this.handleChange('displayUsername')}
-					value={displayUsername}
-				/>
+		return (
+			<Layout title="Login">
+				<Form
+					{...{ action, error }}
+					method="post"
+					onSubmit={this.handleSubmit}
+				>
+					<Input
+						label="Username"
+						name="username"
+						onChange={this.handleChange('displayUsername')}
+						value={displayUsername}
+					/>
 
-				<Input
-					label="Password"
-					name="password"
-					onChange={this.handleChange('displayPassword')}
-					type="password"
-					value={displayPassword}
-				/>
+					<Input
+						label="Password"
+						name="password"
+						onChange={this.handleChange('displayPassword')}
+						type="password"
+						value={displayPassword}
+					/>
 
-				<Button type="submit">Login</Button>
-			</Form>
-		</Layout>;
+					<Button type="submit">Login</Button>
+				</Form>
+			</Layout>
+		);
 	}
 }
 

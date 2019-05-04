@@ -80,43 +80,45 @@ class SlugForm extends React.Component {
 			error
 		} = this.state;
 
-		return <Form
-			{...{ error }}
-			action="/s"
-			method="post"
-			onSubmit={this.handleSubmit}
-		>
-			<URLInput
-				label="URL"
-				name="url"
-				onChange={this.handleChange('displayURL')}
-				type="url"
-				value={displayURL}
-			/>
-
-			<Input
-				disabled={!customize}
-				label="Code"
-				name="code"
-				onChange={this.handleChange('displayCode')}
-				value={displayCode}
-			/>
-
-			<div css={`
-				align-items: center;
-				display: flex;
-			`}>
-				<Toggle
-					label="Customize Code?"
-					multiSelect
-					name="customize"
-					onChange={this.handleToggle('customize')}
-					value={customize}
+		return (
+			<Form
+				{...{ error }}
+				action="/s"
+				method="post"
+				onSubmit={this.handleSubmit}
+			>
+				<URLInput
+					label="URL"
+					name="url"
+					onChange={this.handleChange('displayURL')}
+					type="url"
+					value={displayURL}
 				/>
 
-				<Button type="submit">Lessify!</Button>
-			</div>
-		</Form >;
+				<Input
+					disabled={!customize}
+					label="Code"
+					name="code"
+					onChange={this.handleChange('displayCode')}
+					value={displayCode}
+				/>
+
+				<div css={`
+					align-items: center;
+					display: flex;
+				`}>
+					<Toggle
+						label="Customize Code?"
+						multiSelect
+						name="customize"
+						onChange={this.handleToggle('customize')}
+						value={customize}
+					/>
+
+					<Button type="submit">Lessify!</Button>
+				</div>
+			</Form>
+		);
 	}
 }
 
@@ -125,11 +127,13 @@ const SlugsIndex = ({ baseUrl, loading, router, slugs }) => {
 		return <P>Loading slugs....</P>;
 	}
 
-	return <Layout header={<H1>Shortened URLs</H1>} title="Slugs">
-		<SlugForm {...{ router }} />
+	return (
+		<Layout header={<H1>Shortened URLs</H1>} title="Slugs">
+			<SlugForm {...{ router }} />
 
-		<SlugsList {...{ baseUrl, slugs }} />
-	</Layout>;
+			<SlugsList {...{ baseUrl, slugs }} />
+		</Layout>
+	);
 };
 
 SlugsIndex.defaultProps = {

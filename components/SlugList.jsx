@@ -23,15 +23,19 @@ const Code = styled.a`
 	color: #333333;
 `;
 
-const SlugsList = ({ baseUrl, slugs }) => slugs.length ? <UL>
-	{slugs.map(({ id, code, url }) => <LI key={id}>
-		<Link as={`/s/${code}`} href={`/s?slugCode=${code}`} passHref>
-			<Code>/s/{code}</Code>
-		</Link>
+const SlugsList = ({ baseUrl, slugs }) => slugs.length ? (
+	<UL>
+		{slugs.map(({ id, code, url }) => (
+			<LI key={id}>
+				<Link as={`/s/${code}`} href={`/s?slugCode=${code}`} passHref>
+					<Code>/s/{code}</Code>
+				</Link>
 
-		<Redirection {...{ baseUrl, code, url }} />
-	</LI>)}
-</UL> : <P>No slugs to list</P>;
+				<Redirection {...{ baseUrl, code, url }} />
+			</LI>
+		))}
+	</UL>
+) : <P>No slugs to list</P>;
 
 SlugsList.propTypes = {
 	baseUrl: PropTypes.string.isRequired,

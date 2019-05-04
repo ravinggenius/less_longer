@@ -20,11 +20,13 @@ const URL = styled.a`
 	color: inherit;
 `;
 
-const Redirection = ({ baseUrl, code, url }) => <Wrapper>
-	<Slug>{baseUrl}/{code}</Slug>
-	<Decor icon={faLongArrowAltRight} />
-	<URL href={url}>{url}</URL>
-</Wrapper>;
+const Redirection = ({ baseUrl, code, url }) => (
+	<Wrapper>
+		<Slug>{baseUrl}/{code}</Slug>
+		<Decor icon={faLongArrowAltRight} />
+		<URL href={url}>{url}</URL>
+	</Wrapper>
+);
 
 Redirection.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
