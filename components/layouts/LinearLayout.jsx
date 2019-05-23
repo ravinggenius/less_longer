@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 const Inner = styled.div`
 	display: grid;
@@ -10,10 +10,8 @@ const Inner = styled.div`
 		"......  body  ......"
 		"......  ....  ......"
 	;
-	grid-template-columns:
-		1fr ${({ hasHeader }) => hasHeader ? '90vw' : 'max-content'} 1fr;
-	grid-template-rows:
-		${({ hasHeader }) => hasHeader ? 'min-content' : '1fr'} max-content 1fr;
+	grid-template-columns: 1fr ${({ hasHeader }) => hasHeader ? '90vw' : 'max-content'} 1fr;
+	grid-template-rows: ${({ hasHeader }) => hasHeader ? 'min-content' : '1fr'} max-content 1fr;
 	height: 100vh;
 `;
 
@@ -32,17 +30,19 @@ export const Body = styled.section`
 	padding: 20px;
 `;
 
-const Layout = ({ children, header = null, title, ...ambient }) => <Fragment>
-	<Head>
-		<title>{title ? `${title} | Less Longer` : 'Less Longer'}</title>
-	</Head>
+const Layout = ({ children, header = null, title, ...ambient }) => (
+	<>
+		<Head>
+			<title>{title ? `${title} | Less Longer` : 'Less Longer'}</title>
+		</Head>
 
-	<Inner {...ambient} hasHeader={!!header}>
-		{header ? <Header>{header}</Header> : null}
+		<Inner {...ambient} hasHeader={!!header}>
+			{header ? <Header>{header}</Header> : null}
 
-		<Body>{children}</Body>
-	</Inner>
-</Fragment>;
+			<Body>{children}</Body>
+		</Inner>
+	</>
+);
 
 Layout.propTypes = {
 	children: PropTypes.oneOfType([

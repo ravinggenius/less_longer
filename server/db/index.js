@@ -53,7 +53,7 @@ export const loadQueries = queryDir => {
 			debug: true,
 			minify: true
 		})
-	]).reduce((reply, [ name, query ]) => ({
+	]).reduce((reply, [name, query]) => ({
 		...reply,
 		[name]: query
 	}), {});

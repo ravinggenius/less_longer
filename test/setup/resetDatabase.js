@@ -6,4 +6,3 @@ const resetDatabase = async () => {
 };
 
 export default resetDatabase;
-

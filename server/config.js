@@ -11,7 +11,7 @@ dotenv.config({
 const configBoolean = ifUndefined => ({
 	filter: _ => _ === 'true',
 	ifUndefined,
-	set: [ 'true', 'false' ]
+	set: ['true', 'false']
 });
 
 const configInteger = ifUndefined => ({

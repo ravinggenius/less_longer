@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { withRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { fetchAuthenticatedBody, setToken } from '../../client/browser';
 import Button from '../../components/form/Button';
@@ -8,89 +8,66 @@ import Form from '../../components/form/Form';
 import Input from '../../components/form/Input';
 import Layout from '../../components/layouts/LinearLayout';
 
-class LoginForm extends React.Component {
-	static getDerivedStateFromProps(
-		{ resume, username },
-		{ displayUsername, displayPassword }
-	) {
-		return {
-			action: resume ? '/l' : `/l?resume=${resume}`,
-			displayPassword: displayPassword || '',
-			displayUsername: displayUsername || username || ''
-		};
-	}
+const LoginPage = ({ action, error: errorDefault, resume, router, username: usernameDefault }) => {
+	const [error, setError] = useState(errorDefault);
 
-	static getInitialProps({ query }) {
-		return query;
-	}
+	const [username, setUsername] = useState(usernameDefault || '');
+	const [password, setPassword] = useState('');
 
-	static propTypes = {
-		resume: PropTypes.string.isRequired,
-		router: PropTypes.shape({}).isRequired,
-		username: PropTypes.string
-	}
-
-	state = {
-		displayPassword: '',
-		displayUsername: ''
-	}
-
-	handleChange = (fieldName) => ({ target: { value } }) => {
-		this.setState(() => ({
-			[fieldName]: value
-		}));
-	}
-
-	handleSubmit = async (event) => {
-		const { resume, router } = this.props;
-		const { action, displayPassword, displayUsername } = this.state;
-
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		try {
 			const { data } = await fetchAuthenticatedBody('POST', action, {
-				password: displayPassword,
-				username: displayUsername
+				password,
+				username
 			});
 
 			setToken(data.token);
 
 			router.replace(resume);
 		} catch ({ error }) {
-			this.setState(() => ({
-				error
-			}));
+			setError(error);
 		}
-	}
+	};
 
-	render() {
-		const { action, displayPassword, displayUsername, error } = this.state;
-
-		return <Layout title="Login">
+	return (
+		<Layout title="Login">
 			<Form
 				{...{ action, error }}
 				method="post"
-				onSubmit={this.handleSubmit}
+				onSubmit={handleSubmit}
 			>
 				<Input
 					label="Username"
 					name="username"
-					onChange={this.handleChange('displayUsername')}
-					value={displayUsername}
+					onChange={({ target: { value } }) => setUsername(value)}
+					value={username}
 				/>
 
 				<Input
 					label="Password"
 					name="password"
-					onChange={this.handleChange('displayPassword')}
+					onChange={({ target: { value } }) => setPassword(value)}
 					type="password"
-					value={displayPassword}
+					value={password}
 				/>
 
 				<Button type="submit">Login</Button>
 			</Form>
-		</Layout>;
-	}
-}
+		</Layout>
+	);
+};
 
-export default withRouter(LoginForm);
+LoginPage.getInitialProps = ({ query }) => ({
+	action: query.resume ? '/l' : `/l?resume=${query.resume}`,
+	...query
+});
+
+LoginPage.propTypes = {
+	resume: PropTypes.string.isRequired,
+	router: PropTypes.shape({}).isRequired,
+	username: PropTypes.string
+};
+
+export default withRouter(LoginPage);

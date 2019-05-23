@@ -1,6 +1,6 @@
 import { withRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { fetchAuthenticatedBody, setToken } from '../../client/browser';
 import Button from '../../components/form/Button';
@@ -8,113 +8,76 @@ import Form from '../../components/form/Form';
 import Input from '../../components/form/Input';
 import Layout from '../../components/layouts/LinearLayout';
 
-class UserCreateForm extends React.Component {
-	static propTypes = {
-		action: PropTypes.string.isRequired,
-		router: PropTypes.shape({}).isRequired,
-		username: PropTypes.string
-	}
+const UserNewPage = ({ action, error: errorDefault, router, username: usernameDefault }) => {
+	const [error, setError] = useState(errorDefault);
 
-	static getDerivedStateFromProps(
-		{ username },
-		{ displayUsername, displayPassword, displayPasswordConfirmation }
-	) {
-		return {
-			displayPassword: displayPassword || '',
-			displayPasswordConfirmation: displayPasswordConfirmation || '',
-			displayUsername: displayUsername || username || ''
-		};
-	}
+	const [password, setPassword] = useState('');
+	const [passwordConfirmation, setPasswordConfirmation] = useState('');
+	const [username, setUsername] = useState(usernameDefault || '');
 
-	static getInitialProps({ query }) {
-		return {
-			action: '/u',
-			...query
-		};
-	}
-
-	state = {
-		displayPassword: '',
-		displayUsername: ''
-	}
-
-	handleChange = (fieldName) => ({ target: { value } }) => {
-		this.setState(() => ({
-			[fieldName]: value
-		}));
-	}
-
-	handleSubmit = async (event) => {
-		const { action, router } = this.props;
-		const {
-			displayPassword,
-			displayPasswordConfirmation,
-			displayUsername
-		} = this.state;
-
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		try {
 			const { data } = await fetchAuthenticatedBody('POST', action, {
-				password: displayPassword,
-				passwordConfirmation: displayPasswordConfirmation,
-				username: displayUsername
+				password,
+				passwordConfirmation,
+				username
 			});
 
 			setToken(data.token);
 
 			router.replace('/s');
 		} catch ({ error }) {
-			this.setState(() => ({
-				error
-			}));
+			setError(error);
 		}
 	}
 
-	render() {
-		const { action } = this.props;
-		const {
-			displayPassword,
-			displayPasswordConfirmation,
-			displayUsername,
-			error
-		} = this.state;
-
-		return <Layout title="Create User">
+	return (
+		<Layout title="Create User">
 			<Form
 				{...{ action, error }}
 				method="post"
-				onSubmit={this.handleSubmit}
+				onSubmit={handleSubmit}
 			>
 				<Input
 					label="Username"
 					name="username"
-					onChange={this.handleChange('displayUsername')}
-					value={displayUsername}
+					onChange={({ target: { value } }) => setUsername(value)}
+					value={username}
 				/>
 
 				<Input
 					label="Password"
 					name="password"
-					onChange={this.handleChange('displayPassword')}
+					onChange={({ target: { value } }) => setPassword(value)}
 					type="password"
-					value={displayPassword}
+					value={password}
 				/>
 
 				<Input
 					label="Confirm"
 					name="passwordConfirmation"
-					onChange={this.handleChange(
-						'displayPasswordConfirmation'
-					)}
+					onChange={({ target: { value } }) => setPasswordConfirmation(value)}
 					type="password"
-					value={displayPasswordConfirmation}
+					value={passwordConfirmation}
 				/>
 
 				<Button type="submit">Create User</Button>
 			</Form>
-		</Layout>;
-	}
-}
+		</Layout>
+	);
+};
 
-export default withRouter(UserCreateForm);
+UserNewPage.getInitialProps = ({ query }) => ({
+	action: '/u',
+	...query
+});
+
+UserNewPage.propTypes = {
+	action: PropTypes.string.isRequired,
+	router: PropTypes.shape({}).isRequired,
+	username: PropTypes.string
+};
+
+export default withRouter(UserNewPage);

@@ -30,7 +30,7 @@ export default (app) => {
 		const { userId } = req.user;
 
 		try {
-			const [ slug, wasCreated ] = await Slug.create(userId, code, url);
+			const [slug, wasCreated] = await Slug.create(userId, code, url);
 
 			res.format({
 				html: () => res.redirect(`/s/${slug.code}`),

@@ -34,7 +34,7 @@ export const protect = (...capabilities) => {
 			const { authorization } = req.headers;
 
 			if (authorization) {
-				const [ type, token ] = authorization.split(' ');
+				const [type, token] = authorization.split(' ');
 
 				if ((type.toLowerCase() === 'bearer') && token) {
 					return token;
