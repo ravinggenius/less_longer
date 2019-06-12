@@ -59,14 +59,26 @@ const LoginPage = ({ action, error: errorDefault, resume, router, username: user
 	);
 };
 
+LoginPage.defaultProps = {
+	error: {}
+};
+
 LoginPage.getInitialProps = ({ query }) => ({
 	action: query.resume ? '/l' : `/l?resume=${query.resume}`,
 	...query
 });
 
 LoginPage.propTypes = {
+	action: PropTypes.string.isRequired,
+	error: PropTypes.shape({}).isRequired,
 	resume: PropTypes.string.isRequired,
 	router: PropTypes.shape({}).isRequired,
+	routes: PropTypes.shape({
+		login: PropTypes.shape({
+			method: PropTypes.string.isRequired,
+			action: PropTypes.string.isRequired
+		}).isRequired
+	}).isRequired,
 	username: PropTypes.string
 };
 

@@ -69,6 +69,10 @@ const UserNewPage = ({ action, error: errorDefault, router, username: usernameDe
 	);
 };
 
+UserNewPage.defaultProps = {
+	error: {}
+};
+
 UserNewPage.getInitialProps = ({ query }) => ({
 	action: '/u',
 	...query
@@ -76,6 +80,7 @@ UserNewPage.getInitialProps = ({ query }) => ({
 
 UserNewPage.propTypes = {
 	action: PropTypes.string.isRequired,
+	error: PropTypes.shape({}).isRequired,
 	router: PropTypes.shape({}).isRequired,
 	username: PropTypes.string
 };

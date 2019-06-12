@@ -99,6 +99,10 @@ const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, router, slugs }
 	);
 };
 
+SlugsIndexPage.defaultProps = {
+	error: {}
+};
+
 SlugsIndexPage.getInitialProps = async ({ req, query }) => {
 	if (req) {
 		return {
@@ -132,6 +136,7 @@ SlugsIndexPage.getInitialProps = async ({ req, query }) => {
 
 SlugsIndexPage.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
+	error: PropTypes.shape({}),
 	loading: PropTypes.bool,
 	router: PropTypes.shape({}).isRequired,
 	slugs: PropTypes.arrayOf(PropTypes.shape({
