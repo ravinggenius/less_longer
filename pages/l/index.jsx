@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { withRouter } from 'next/router';
+import Router from 'next/router';
 import React, { useState } from 'react';
 
 import { fetchAuthenticatedBody, setToken } from '../../client/browser';
@@ -8,7 +8,7 @@ import Form from '../../components/form/Form';
 import Input from '../../components/form/Input';
 import Layout from '../../components/layouts/LinearLayout';
 
-const LoginPage = ({ action, error: errorDefault, resume, router, username: usernameDefault }) => {
+const LoginPage = ({ action, error: errorDefault, resume, username: usernameDefault }) => {
 	const [error, setError] = useState(errorDefault);
 
 	const [username, setUsername] = useState(usernameDefault || '');
@@ -25,7 +25,7 @@ const LoginPage = ({ action, error: errorDefault, resume, router, username: user
 
 			setToken(data.token);
 
-			router.replace(resume);
+			Router.push(resume);
 		} catch ({ error }) {
 			setError(error);
 		}
@@ -72,7 +72,6 @@ LoginPage.propTypes = {
 	action: PropTypes.string.isRequired,
 	error: PropTypes.shape({}).isRequired,
 	resume: PropTypes.string.isRequired,
-	router: PropTypes.shape({}).isRequired,
 	routes: PropTypes.shape({
 		login: PropTypes.shape({
 			method: PropTypes.string.isRequired,
@@ -82,4 +81,4 @@ LoginPage.propTypes = {
 	username: PropTypes.string
 };
 
-export default withRouter(LoginPage);
+export default LoginPage;

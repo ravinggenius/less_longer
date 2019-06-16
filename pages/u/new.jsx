@@ -1,4 +1,4 @@
-import { withRouter } from 'next/router';
+import Router from 'next/router';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
@@ -8,7 +8,7 @@ import Form from '../../components/form/Form';
 import Input from '../../components/form/Input';
 import Layout from '../../components/layouts/LinearLayout';
 
-const UserNewPage = ({ action, error: errorDefault, router, username: usernameDefault }) => {
+const UserNewPage = ({ action, error: errorDefault, username: usernameDefault }) => {
 	const [error, setError] = useState(errorDefault);
 
 	const [password, setPassword] = useState('');
@@ -27,7 +27,7 @@ const UserNewPage = ({ action, error: errorDefault, router, username: usernameDe
 
 			setToken(data.token);
 
-			router.replace('/s');
+			Router.push('/s');
 		} catch ({ error }) {
 			setError(error);
 		}
@@ -81,8 +81,7 @@ UserNewPage.getInitialProps = ({ query }) => ({
 UserNewPage.propTypes = {
 	action: PropTypes.string.isRequired,
 	error: PropTypes.shape({}).isRequired,
-	router: PropTypes.shape({}).isRequired,
 	username: PropTypes.string
 };
 
-export default withRouter(UserNewPage);
+export default UserNewPage;

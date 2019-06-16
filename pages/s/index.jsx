@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import { withRouter } from 'next/router';
+import Router from 'next/router';
 import React, { useState } from 'react';
 
 import { fetchAuthenticated, fetchAuthenticatedBody } from '../../client/browser';
@@ -19,7 +19,7 @@ const URLInput = styled(Input)`
 	}
 `;
 
-const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, router, slugs }) => {
+const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, slugs }) => {
 	const [error, setError] = useState(errorDefault);
 
 	const [customize, setCustomize] = useState(false);
@@ -40,7 +40,7 @@ const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, router, slugs }
 			setCode('')
 			setURL('')
 
-			router.replace(`/s/${data.code}`);
+			Router.push(`/s/${data.code}`);
 		} catch ({ error }) {
 			setError(error);
 		}
@@ -138,7 +138,6 @@ SlugsIndexPage.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
 	error: PropTypes.shape({}),
 	loading: PropTypes.bool,
-	router: PropTypes.shape({}).isRequired,
 	slugs: PropTypes.arrayOf(PropTypes.shape({
 		code: PropTypes.string.isRequired,
 		id: PropTypes.string.isRequired,
@@ -146,4 +145,4 @@ SlugsIndexPage.propTypes = {
 	})).isRequired
 };
 
-export default withRouter(SlugsIndexPage);
+export default SlugsIndexPage;
