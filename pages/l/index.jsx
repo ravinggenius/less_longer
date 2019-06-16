@@ -8,8 +8,8 @@ import Form from '../../components/form/Form';
 import Input from '../../components/form/Input';
 import Layout from '../../components/layouts/LinearLayout';
 
-const LoginPage = ({ action, error: errorDefault, resume, username: usernameDefault }) => {
-	const [error, setError] = useState(errorDefault);
+const LoginPage = ({ action, errors: errorsDefault, resume, username: usernameDefault }) => {
+	const [errors, setErrors] = useState(errorsDefault);
 
 	const [username, setUsername] = useState(usernameDefault || '');
 	const [password, setPassword] = useState('');
@@ -26,19 +26,21 @@ const LoginPage = ({ action, error: errorDefault, resume, username: usernameDefa
 			setToken(data.token);
 
 			Router.push(resume);
-		} catch ({ error }) {
-			setError(error);
+		} catch ({ errors }) {
+			setErrors(errors);
 		}
 	};
 
 	return (
 		<Layout title="Login">
 			<Form
-				{...{ action, error }}
+				{...{ action }}
+				errors={errors.base}
 				method="post"
 				onSubmit={handleSubmit}
 			>
 				<Input
+					errors={errors.username}
 					label="Username"
 					name="username"
 					onChange={({ target: { value } }) => setUsername(value)}
@@ -46,6 +48,7 @@ const LoginPage = ({ action, error: errorDefault, resume, username: usernameDefa
 				/>
 
 				<Input
+					errors={errors.password}
 					label="Password"
 					name="password"
 					onChange={({ target: { value } }) => setPassword(value)}
@@ -59,10 +62,6 @@ const LoginPage = ({ action, error: errorDefault, resume, username: usernameDefa
 	);
 };
 
-LoginPage.defaultProps = {
-	error: {}
-};
-
 LoginPage.getInitialProps = ({ query }) => ({
 	action: query.resume ? '/l' : `/l?resume=${query.resume}`,
 	...query
@@ -70,7 +69,7 @@ LoginPage.getInitialProps = ({ query }) => ({
 
 LoginPage.propTypes = {
 	action: PropTypes.string.isRequired,
-	error: PropTypes.shape({}).isRequired,
+	errors: PropTypes.shape({}).isRequired,
 	resume: PropTypes.string.isRequired,
 	routes: PropTypes.shape({
 		login: PropTypes.shape({

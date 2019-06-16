@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Errors from './Errors'
+
 const Input = styled.input`
 	background-color: inherit;
 	border: 1px solid #999999;
@@ -32,26 +34,36 @@ const LabelText = styled.span`
 `;
 
 const Wrapper = ({
-	disabled = false,
+	disabled,
+	errors,
 	label,
 	name,
 	onChange,
-	required = false,
-	type = 'text',
+	required,
+	type,
 	value,
 	...ambient
 }) => (
-		<Label {...ambient}>
-			<LabelText>{label}</LabelText>
-			<Input
-				{...{ disabled, name, onChange, required, type }}
-				defaultValue={value}
-			/>
-		</Label>
-	);
+	<Label {...ambient}>
+		<LabelText>{label}</LabelText>
+		<Input
+			{...{ disabled, name, onChange, required, type }}
+			defaultValue={value}
+		/>
+		<Errors messages={errors} />
+	</Label>
+);
+
+Wrapper.defaultProps = {
+	disabled: false,
+	errors: [],
+	required: false,
+	type: 'text'
+};
 
 Wrapper.propTypes = {
 	disabled: PropTypes.bool,
+	errors: PropTypes.arrayOf(PropTypes.string),
 	label: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,

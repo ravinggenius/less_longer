@@ -1,7 +1,7 @@
 import express from 'express';
 
-import asJSON from '../asJSON';
 import config from '../config';
+import KeyedErrors from '../models/keyed_errors';
 import * as Session from '../models/session';
 
 export default (app) => {
@@ -17,6 +17,7 @@ export default (app) => {
 
 	routes.get('/l', ensureUnAuthenticated, (req, res) => {
 		const query = {
+			errors: {},
 			resume: req.query.resume || '/'
 		};
 
@@ -50,7 +51,7 @@ export default (app) => {
 			});
 		} catch (error) {
 			const query = {
-				error: asJSON(error),
+				errors: KeyedErrors.serialize(error),
 				resume: req.query.resume || '/',
 				username
 			};

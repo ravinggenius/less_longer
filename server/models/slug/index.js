@@ -4,6 +4,8 @@ import config from '../../config';
 import { db, loadQueries } from '../../db';
 import rootLogger from '../../logger';
 
+import KeyedErrors from '../keyed_errors';
+
 const logger = rootLogger.child({
 	namespace: 'server:models:slug'
 });
@@ -11,36 +13,24 @@ const logger = rootLogger.child({
 const sql = loadQueries('models/slug/queries');
 
 const validate = (code, url) => {
-	const errors = [];
+	const errors = new KeyedErrors();
 
 	if (code && (code.length < config.slugCodeMinLength)) {
-		errors.push({
-			field: 'code',
-			// eslint-disable-next-line max-len
-			message: `Code must be at least ${config.slugCodeMinLength} characters long`
-		});
+		errors.add('code', `Code must be at least ${config.slugCodeMinLength} characters long`);
 	}
 
 	if (!url) {
-		errors.push({
-			field: 'url',
-			message: 'URL is required'
-		});
+		errors.add('url', 'URL is required');
 	}
 
 	if (url && url.startsWith(config.baseUrl)) {
-		errors.push({
-			field: 'url',
-			message: 'URL must not start with server URL'
-		});
+		errors.add('url', 'URL must not start with server URL');
 	}
 
 	if (errors.length) {
-		const error = new Error('Invalid slug');
+		errors.add('base', 'Invalid slug');
 
-		error.details = errors;
-
-		throw error;
+		throw errors;
 	}
 };
 

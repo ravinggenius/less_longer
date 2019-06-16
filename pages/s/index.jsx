@@ -19,8 +19,8 @@ const URLInput = styled(Input)`
 	}
 `;
 
-const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, slugs }) => {
-	const [error, setError] = useState(errorDefault);
+const SlugsIndexPage = ({ baseUrl, errors: errorsDefault, loading, slugs }) => {
+	const [errors, setErrors] = useState(errorsDefault);
 
 	const [customize, setCustomize] = useState(false);
 	const [code, setCode] = useState('')
@@ -35,14 +35,14 @@ const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, slugs }) => {
 				url: url
 			});
 
-			setError(null);
+			setErrors(null);
 
 			setCode('')
 			setURL('')
 
 			Router.push(`/s/${data.code}`);
-		} catch ({ error }) {
-			setError(error);
+		} catch ({ errors }) {
+			setErrors(errors);
 		}
 	};
 
@@ -57,12 +57,13 @@ const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, slugs }) => {
 	return (
 		<Layout header={<H1>Shortened URLs</H1>} title="Slugs">
 			<Form
-				{...{ error }}
 				action="/s"
+				errors={errors.base}
 				method="post"
 				onSubmit={handleSubmit}
 			>
 				<URLInput
+					errors={errors.url}
 					label="URL"
 					name="url"
 					onChange={({ target: { value } }) => setURL(value)}
@@ -72,6 +73,7 @@ const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, slugs }) => {
 
 				<Input
 					disabled={!customize}
+					errors={errors.code}
 					label="Code"
 					name="code"
 					onChange={({ target: { value } }) => setCode(value)}
@@ -97,10 +99,6 @@ const SlugsIndexPage = ({ baseUrl, error: errorDefault, loading, slugs }) => {
 			<SlugsList {...{ baseUrl, slugs }} />
 		</Layout>
 	);
-};
-
-SlugsIndexPage.defaultProps = {
-	error: {}
 };
 
 SlugsIndexPage.getInitialProps = async ({ req, query }) => {
@@ -136,7 +134,7 @@ SlugsIndexPage.getInitialProps = async ({ req, query }) => {
 
 SlugsIndexPage.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
-	error: PropTypes.shape({}),
+	errors: PropTypes.shape({}).isRequired,
 	loading: PropTypes.bool,
 	slugs: PropTypes.arrayOf(PropTypes.shape({
 		code: PropTypes.string.isRequired,

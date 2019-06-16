@@ -3,8 +3,8 @@ import express from 'express';
 import { protect } from './middlewares/checkCapabilities';
 import { ensureUserCreatable } from './middlewares/ensureUserCreatable';
 
-import asJSON from '../asJSON';
 import config from '../config';
+import KeyedErrors from '../models/keyed_errors';
 import * as Session from '../models/session';
 import * as SLUG from '../models/slug/capabilities';
 import * as User from '../models/user';
@@ -30,7 +30,9 @@ export default (app) => {
 	});
 
 	routes.get('/u/new', ensureUserCreatable, (req, res) => {
-		const query = {};
+		const query = {
+			errors: {}
+		};
 
 		res.format({
 			html: () => app.render(req, res, '/u/new', query),
@@ -70,7 +72,7 @@ export default (app) => {
 			});
 		} catch (error) {
 			const query = {
-				error: asJSON(error),
+				errors: KeyedErrors.serialize(error),
 				username
 			};
 

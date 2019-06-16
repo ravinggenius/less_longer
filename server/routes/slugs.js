@@ -2,8 +2,8 @@ import express from 'express';
 
 import { protect } from './middlewares/checkCapabilities';
 
-import asJSON from '../asJSON';
 import config from '../config';
+import KeyedErrors from '../models/keyed_errors';
 import * as Slug from '../models/slug';
 import * as SLUG from '../models/slug/capabilities';
 
@@ -15,6 +15,7 @@ export default (app) => {
 
 		const query = {
 			baseUrl: config.baseUrl,
+			errors: {},
 			slugs
 		};
 
@@ -44,7 +45,7 @@ export default (app) => {
 			const slugs = await Slug.list();
 
 			const query = {
-				error: asJSON(error),
+				errors: KeyedErrors.serialize(error),
 				slugs
 			};
 
@@ -60,6 +61,7 @@ export default (app) => {
 
 		const query = {
 			baseUrl: config.baseUrl,
+			errors: {},
 			slug
 		};
 

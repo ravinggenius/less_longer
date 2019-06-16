@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Errors from '../Errors';
 import P from '../text/P';
 
 import Button from './Button';
+import Errors from './Errors';
 
 const Form = styled.form`
 	display: flex;
@@ -23,26 +23,25 @@ const Form = styled.form`
 const Wrapper = ({
 	action,
 	children,
-	error,
+	errors,
 	method,
 	onSubmit,
 	...ambient
 }) => (
 	<Form {...{ action, method, onSubmit }} {...ambient}>
-		{error && <Errors {...error} />}
+		<Errors messages={errors} />
 
 		{children}
 	</Form>
 );
 
+Wrapper.defaultProps = {
+	errors: []
+};
+
 Wrapper.propTypes = {
 	action: PropTypes.string.isRequired,
-	error: PropTypes.shape({
-		details: PropTypes.arrayOf(PropTypes.shape({
-			message: PropTypes.string.isRequired
-		})),
-		message: PropTypes.string.isRequired
-	}),
+	errors: PropTypes.arrayOf(PropTypes.string),
 	children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
 	method: PropTypes.string.isRequired,
 	onSubmit: PropTypes.func.isRequired

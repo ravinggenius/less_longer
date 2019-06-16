@@ -8,8 +8,8 @@ import Form from '../../components/form/Form';
 import Input from '../../components/form/Input';
 import Layout from '../../components/layouts/LinearLayout';
 
-const UserNewPage = ({ action, error: errorDefault, username: usernameDefault }) => {
-	const [error, setError] = useState(errorDefault);
+const UserNewPage = ({ action, errors: errorsDefault, username: usernameDefault }) => {
+	const [errors, setErrors] = useState(errorsDefault);
 
 	const [password, setPassword] = useState('');
 	const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -28,19 +28,21 @@ const UserNewPage = ({ action, error: errorDefault, username: usernameDefault })
 			setToken(data.token);
 
 			Router.push('/s');
-		} catch ({ error }) {
-			setError(error);
+		} catch ({ errors }) {
+			setErrors(errors);
 		}
 	}
 
 	return (
 		<Layout title="Create User">
 			<Form
-				{...{ action, error }}
+				{...{ action }}
+				errors={errors.base}
 				method="post"
 				onSubmit={handleSubmit}
 			>
 				<Input
+					errors={errors.username}
 					label="Username"
 					name="username"
 					onChange={({ target: { value } }) => setUsername(value)}
@@ -48,6 +50,7 @@ const UserNewPage = ({ action, error: errorDefault, username: usernameDefault })
 				/>
 
 				<Input
+					errors={errors.password}
 					label="Password"
 					name="password"
 					onChange={({ target: { value } }) => setPassword(value)}
@@ -56,6 +59,7 @@ const UserNewPage = ({ action, error: errorDefault, username: usernameDefault })
 				/>
 
 				<Input
+					errors={errors.passwordConfirmation}
 					label="Confirm"
 					name="passwordConfirmation"
 					onChange={({ target: { value } }) => setPasswordConfirmation(value)}
@@ -69,10 +73,6 @@ const UserNewPage = ({ action, error: errorDefault, username: usernameDefault })
 	);
 };
 
-UserNewPage.defaultProps = {
-	error: {}
-};
-
 UserNewPage.getInitialProps = ({ query }) => ({
 	action: '/u',
 	...query
@@ -80,7 +80,7 @@ UserNewPage.getInitialProps = ({ query }) => ({
 
 UserNewPage.propTypes = {
 	action: PropTypes.string.isRequired,
-	error: PropTypes.shape({}).isRequired,
+	errors: PropTypes.shape({}).isRequired,
 	username: PropTypes.string
 };
 
