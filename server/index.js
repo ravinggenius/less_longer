@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import listRoutes from 'express-list-endpoints';
 import helmet from 'helmet';
+import methodOverride from 'method-override';
 import nextjs from 'next';
 
 import config from './config';
@@ -31,6 +32,25 @@ app.prepare().then(() => {
 
 	server.use(helmet());
 
+	server.use(bodyParser.json({
+		strict: true
+	}));
+
+	server.use(bodyParser.urlencoded({
+		extended: true
+	}));
+
+	server.use(methodOverride('X-HTTP-Method'));
+	server.use(methodOverride('X-HTTP-Method-Override'));
+	server.use(methodOverride('X-Method-Override'));
+	server.use(methodOverride((req) => {
+		const { _method: intentedMethod } = req.body;
+
+		delete req.body._method;
+
+		return intentedMethod;
+	}));
+
 	server.use(roarr({
 		level: (req) => req.originalUrl.startsWith('/_next') ? 'trace' : 'info',
 		logger: rootLogger.child({
@@ -43,14 +63,6 @@ app.prepare().then(() => {
 	server.use(expanderRoutes(app));
 
 	server.use(cookieParser(config.cookieSecret));
-
-	server.use(bodyParser.json({
-		strict: true
-	}));
-
-	server.use(bodyParser.urlencoded({
-		extended: true
-	}));
 
 	server.use(loginRoutes(app));
 	server.use(slugRoutes(app));

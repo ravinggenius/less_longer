@@ -7,6 +7,17 @@ import P from '../text/P';
 import Button from './Button';
 import Errors from './Errors';
 
+export const SAFE_METHODS = [
+	'GET',
+	'POST'
+];
+
+export const METHODS = [
+	...SAFE_METHODS,
+	'DELETE',
+	'PUT'
+]
+
 const Form = styled.form`
 	display: flex;
 	flex-direction: column;
@@ -20,30 +31,53 @@ const Form = styled.form`
 	}
 `;
 
+const HiddenMethod = styled.input`
+	display: none;
+`;
+
+HiddenMethod.defaultProps = {
+	name: '_method',
+	type: 'hidden'
+}
+
 const Wrapper = ({
-	action,
 	children,
 	errors,
-	method,
 	onSubmit,
+	route: {
+		action,
+		method: intendedMethod
+	},
 	...ambient
-}) => (
-	<Form {...{ action, method, onSubmit }} {...ambient}>
-		<Errors messages={errors} />
+}) => {
+	const actualMethod = SAFE_METHODS.includes(intendedMethod) ? intendedMethod : 'POST';
 
-		{children}
-	</Form>
-);
+	return (
+		<Form
+			{...{ action, onSubmit }}
+			data-intended-method={intendedMethod}
+			method={actualMethod}
+			{...ambient}
+		>
+			<HiddenMethod value={intendedMethod} />
+			<Errors messages={errors} />
+
+			{children}
+		</Form>
+	);
+};
 
 Wrapper.defaultProps = {
 	errors: []
 };
 
 Wrapper.propTypes = {
-	action: PropTypes.string.isRequired,
 	errors: PropTypes.arrayOf(PropTypes.string),
 	children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
-	method: PropTypes.string.isRequired,
+	route: PropTypes.shape({
+		action: PropTypes.string.isRequired,
+		method: PropTypes.string.isRequired
+	}).isRequired,
 	onSubmit: PropTypes.func.isRequired
 };
 
