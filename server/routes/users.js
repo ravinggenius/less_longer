@@ -14,8 +14,10 @@ export default (app) => {
 	const routes = express.Router();
 
 	routes.get('/u', protect(USER.read), (req, res, next) => {
+		const query = {};
+
 		res.format({
-			html: () => app.render(req, res, '/u', {}),
+			html: () => app.render(req, res, '/u', query),
 			json: next
 		});
 	});
@@ -28,8 +30,10 @@ export default (app) => {
 	});
 
 	routes.get('/u/new', ensureUserCreatable, (req, res) => {
+		const query = {};
+
 		res.format({
-			html: () => app.render(req, res, '/u/new', {}),
+			html: () => app.render(req, res, '/u/new', query),
 			json: () => res.status(406).end()
 		});
 	});
@@ -54,21 +58,25 @@ export default (app) => {
 				secure: config.useSecureCookies
 			});
 
+			const query = {
+				data: {
+					token
+				}
+			};
+
 			res.format({
 				html: () => res.redirect(req.query.resume || '/s'),
-				json: () => res.status(201).json({
-					data: {
-						token
-					}
-				})
+				json: () => res.status(201).json(query)
 			});
 		} catch (error) {
+			const query = {
+				error: asJSON(error),
+				username
+			};
+
 			res.format({
-				html: () => res.render(req, res, '/u/new', {
-					error: asJSON(error),
-					username
-				}),
-				json: () => res.status(400).json({ error: asJSON(error) })
+				html: () => res.render(req, res, '/u/new', query),
+				json: () => res.status(400).json(query)
 			});
 		}
 	});

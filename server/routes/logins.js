@@ -16,10 +16,12 @@ export default (app) => {
 	};
 
 	routes.get('/l', ensureUnAuthenticated, (req, res) => {
+		const query = {
+			resume: req.query.resume || '/'
+		};
+
 		res.format({
-			html: () => app.render(req, res, '/l', {
-				resume: req.query.resume || '/'
-			}),
+			html: () => app.render(req, res, '/l', query),
 			json: () => res.status(406).end()
 		});
 	});
@@ -36,22 +38,26 @@ export default (app) => {
 				secure: config.useSecureCookies
 			});
 
+			const query = {
+				data: {
+					token
+				}
+			};
+
 			res.format({
 				html: () => res.redirect(req.query.resume || '/'),
-				json: () => res.json({
-					data: {
-						token
-					}
-				})
+				json: () => res.json(query)
 			});
 		} catch (error) {
+			const query = {
+				error: asJSON(error),
+				resume: req.query.resume || '/',
+				username
+			};
+
 			res.format({
-				html: () => app.render(req, res, '/l', {
-					error: asJSON(error),
-					resume: req.query.resume || '/',
-					username
-				}),
-				json: () => res.status(400).json({ error: asJSON(error) })
+				html: () => app.render(req, res, '/l', query),
+				json: () => res.status(400).json(query)
 			});
 		}
 	});
