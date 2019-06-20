@@ -1,4 +1,4 @@
-import ConfConf from 'conf_conf';
+import { configBoolean, configInteger, configString, configure } from 'conf_conf';
 import dotenv from 'dotenv';
 
 dotenv.config({
@@ -8,22 +8,7 @@ dotenv.config({
 	).pathname
 });
 
-const configBoolean = ifUndefined => ({
-	filter: _ => _ === 'true',
-	ifUndefined,
-	set: ['true', 'false']
-});
-
-const configInteger = ifUndefined => ({
-	filter: _ => Number.parseInt(_, 10),
-	ifUndefined
-});
-
-const configString = ifUndefined => ({
-	ifUndefined
-});
-
-export default ConfConf.configure(process.env, {
+export default configure(process.env, {
 	allowMultipleUsers: configBoolean('false'),
 
 	baseUrl: configString('http://localhost:3000'),
@@ -41,8 +26,8 @@ export default ConfConf.configure(process.env, {
 	port: configInteger('3000'),
 
 	slugCodeMinLength: {
-		ifUndefined: '2',
-		filter: _ => {
+		fallback: '2',
+		finalize: _ => {
 			const reply = Number.parseInt(_, 10);
 			if (reply < 2) {
 				throw new Error('`CODE_MIN_LENGTH` must be `2` or greater');
