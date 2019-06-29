@@ -49,7 +49,17 @@ app.prepare().then(() => {
 	}));
 
 	server.use(roarr({
-		level: (req) => req.originalUrl.startsWith('/_next') ? 'trace' : 'info',
+		level: (req) => {
+			if (req.originalUrl.startsWith('/_next')) {
+				return 'trace';
+			}
+
+			if (req.headers.accept.includes('image')) {
+				return 'trace';
+			}
+
+			return 'info';
+		},
 		logger: rootLogger.child({
 			namespace: 'server:routes'
 		})
