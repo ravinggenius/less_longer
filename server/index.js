@@ -7,12 +7,9 @@ import methodOverride from 'method-override';
 import nextjs from 'next';
 
 import config from './config';
-import expanderRoutes from './routes/expander';
 import rootLogger from './logger';
 import roarr from './logger/middleware'
-import loginRoutes from './routes/logins';
-import slugRoutes from './routes/slugs';
-import userRoutes from './routes/users';
+import buildRoutes from './routes';
 
 const logger = rootLogger.child({
 	namespace: 'server'
@@ -58,15 +55,9 @@ app.prepare().then(() => {
 		})
 	}));
 
-	server.get('/', (req, res) => res.redirect('/s'));
-
-	server.use(expanderRoutes(app));
-
 	server.use(cookieParser(config.cookieSecret));
 
-	server.use(loginRoutes(app));
-	server.use(slugRoutes(app));
-	server.use(userRoutes(app));
+	server.use(buildRoutes(app));
 
 	server.get('*', handle);
 
