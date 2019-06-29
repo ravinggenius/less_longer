@@ -27,7 +27,12 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/index.js"
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--require",
+        "esm"
+      ],
+      "program": "${workspaceFolder}/server/index.js"
     }
   ]
 }
