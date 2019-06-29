@@ -29,6 +29,12 @@ app.prepare().then(() => {
 
 	server.use(helmet());
 
+	server.use((req, res, next) => (
+		(req.url === '/favicon.ico')
+			? res.sendStatus(204)
+			: next()
+	));
+
 	server.use(bodyParser.json({
 		strict: true
 	}));
