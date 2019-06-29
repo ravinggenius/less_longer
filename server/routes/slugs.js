@@ -7,6 +7,13 @@ import KeyedErrors from '../models/keyed_errors';
 import * as Slug from '../models/slug';
 import * as SLUG from '../models/slug/capabilities';
 
+const ROUTES = {
+	slugCreate: {
+		action: '/s',
+		method: 'POST'
+	}
+};
+
 export default (app) => {
 	const routes = express.Router();
 
@@ -15,8 +22,12 @@ export default (app) => {
 
 		const query = {
 			baseUrl: config.baseUrl,
+			code: '',
+			customize: false,
 			errors: {},
-			slugs
+			routes: ROUTES,
+			slugs,
+			url: ''
 		};
 
 		res.format({
@@ -26,27 +37,42 @@ export default (app) => {
 	});
 
 	routes.post('/s', protect(SLUG.write), async (req, res) => {
-		const { code, url } = req.body;
+		const { code, customize, url } = req.body;
 		const { userId } = req.user;
+
+		const slugs = await Slug.list();
 
 		try {
 			const [slug, wasCreated] = await Slug.create(userId, code, url);
 
 			const query = {
 				baseUrl: config.baseUrl,
-				slug
+				code: '',
+				customize: false,
+				errors: {},
+				routes: ROUTES,
+				slug,
+				slugs,
+				url: ''
 			};
 
+			const location = `/s/${slug.code}`;
+
 			res.format({
-				html: () => res.redirect(`/s/${slug.code}`),
-				json: () => res.status(wasCreated ? 201 : 200).json(query)
+				html: () => res.redirect(location),
+				json: () => res.status(wasCreated ? 201 : 200).location(location).json(query)
 			});
 		} catch (error) {
 			const slugs = await Slug.list();
 
 			const query = {
+				baseUrl: config.baseUrl,
+				code,
+				customize,
 				errors: KeyedErrors.serialize(error),
-				slugs
+				routes: ROUTES,
+				slugs,
+				url
 			};
 
 			res.format({
@@ -61,20 +87,12 @@ export default (app) => {
 
 		const query = {
 			baseUrl: config.baseUrl,
-			errors: {},
 			slug
 		};
 
 		res.format({
-			html: () => app.render(req, res, '/s', query),
+			html: () => app.render(req, res, '/s/_show', query),
 			json: () => res.json(query)
-		});
-	});
-
-	routes.put('/s/:slugCode', protect(SLUG.write), (req, res, next) => {
-		res.format({
-			html: () => res.redirect('/s/:slugCode'),
-			json: next
 		});
 	});
 

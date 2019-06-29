@@ -2,31 +2,45 @@ import PropTypes from 'prop-types';
 import Router from 'next/router';
 import React, { useState } from 'react';
 
-import { fetchAuthenticatedBody, setToken } from '../../client/browser';
+import * as API from '../../client/api';
 import Button from '../../components/form/Button';
-import Form from '../../components/form/Form';
+import Form, { METHODS } from '../../components/form/Form';
 import Input from '../../components/form/Input';
 import Layout from '../../components/layouts/LinearLayout';
 
-const LoginPage = ({ action, errors: errorsDefault, resume, username: usernameDefault }) => {
-	const [errors, setErrors] = useState(errorsDefault);
+const LoginPage = ({
+	errors: errorsInitial,
+	routes,
+	username: usernameInitial
+}) => {
+	const [errors, setErrors] = useState(errorsInitial);
 
-	const [username, setUsername] = useState(usernameDefault || '');
+	const [username, setUsername] = useState(usernameInitial);
 	const [password, setPassword] = useState('');
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		try {
-			const { data } = await fetchAuthenticatedBody('POST', action, {
-				password,
-				username
+		const {
+			action,
+			dataset: { intendedMethod: method }
+		} = event.target;
+
+		const response = await API.fetchJson({
+			method,
+			action
+		}, {
+				username,
+				password
 			});
 
-			setToken(data.token);
+		if (response.ok) {
+			const { token } = await response.json();
 
-			Router.push(resume);
-		} catch ({ errors }) {
+			API.setToken(token);
+
+			Router.push(response.headers.get('Location'));
+		} else {
 			setErrors(errors);
 		}
 	};
@@ -34,10 +48,9 @@ const LoginPage = ({ action, errors: errorsDefault, resume, username: usernameDe
 	return (
 		<Layout title="Login">
 			<Form
-				{...{ action }}
 				errors={errors.base}
-				method="post"
 				onSubmit={handleSubmit}
+				route={API.expandRoute(routes.loginCreate)}
 			>
 				<Input
 					errors={errors.username}
@@ -62,19 +75,14 @@ const LoginPage = ({ action, errors: errorsDefault, resume, username: usernameDe
 	);
 };
 
-LoginPage.getInitialProps = ({ query }) => ({
-	action: query.resume ? '/l' : `/l?resume=${query.resume}`,
-	...query
-});
+LoginPage.getInitialProps = API.buildGetInitialProps();
 
 LoginPage.propTypes = {
-	action: PropTypes.string.isRequired,
 	errors: PropTypes.shape({}).isRequired,
-	resume: PropTypes.string.isRequired,
 	routes: PropTypes.shape({
-		login: PropTypes.shape({
-			method: PropTypes.string.isRequired,
-			action: PropTypes.string.isRequired
+		loginCreate: PropTypes.shape({
+			action: PropTypes.string.isRequired,
+			method: PropTypes.oneOf(METHODS).isRequired
 		}).isRequired
 	}).isRequired,
 	username: PropTypes.string

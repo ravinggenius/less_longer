@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import Router from 'next/router';
 import React, { useState } from 'react';
 
-import { fetchAuthenticated, fetchAuthenticatedBody } from '../../client/browser';
+import * as API from '../../client/api';
 import Button from '../../components/form/Button';
-import Form from '../../components/form/Form';
+import Form, { METHODS } from '../../components/form/Form';
 import Input from '../../components/form/Input';
 import Toggle from '../../components/form/Toggle';
 import Layout from '../../components/layouts/LinearLayout';
 import SlugsList from '../../components/SlugList';
 import H1 from '../../components/text/H1';
-import P from '../../components/text/P';
 
 const URLInput = styled(Input)`
 	> input {
@@ -19,48 +18,51 @@ const URLInput = styled(Input)`
 	}
 `;
 
-const SlugsIndexPage = ({ baseUrl, errors: errorsDefault, loading, slugs }) => {
-	const [errors, setErrors] = useState(errorsDefault);
+const SlugsIndexPage = ({
+	baseUrl,
+	code: codeInitial,
+	customize: customizeInitial,
+	errors: errorsInitial,
+	routes,
+	slugs,
+	url: urlInitial
+}) => {
+	const [errors, setErrors] = useState(errorsInitial);
 
-	const [customize, setCustomize] = useState(false);
-	const [code, setCode] = useState('')
-	const [url, setURL] = useState('')
+	const [customize, setCustomize] = useState(customizeInitial);
+	const [code, setCode] = useState(codeInitial);
+	const [url, setURL] = useState(urlInitial);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		try {
-			const { data } = await fetchAuthenticatedBody('POST', '/s', {
-				code: customize ? code : '',
-				url: url
+		const {
+			action,
+			dataset: { intendedMethod: method }
+		} = event.target;
+
+		const response = await API.fetchJson({
+			method,
+			action
+		}, {
+				code,
+				customize,
+				url
 			});
 
-			setErrors(null);
-
-			setCode('')
-			setURL('')
-
-			Router.push(`/s/${data.code}`);
-		} catch ({ errors }) {
+		if (response.ok) {
+			Router.push(response.headers.get('Location'));
+		} else {
 			setErrors(errors);
 		}
 	};
 
-	if (loading) {
-		return (
-			<Layout header={<H1>Shortened URLs</H1>} title="Slugs">
-				<P>Loading slugs....</P>
-			</Layout>
-		);
-	}
-
 	return (
 		<Layout header={<H1>Shortened URLs</H1>} title="Slugs">
 			<Form
-				action="/s"
 				errors={errors.base}
-				method="post"
 				onSubmit={handleSubmit}
+				route={API.expandRoute(routes.slugCreate)}
 			>
 				<URLInput
 					errors={errors.url}
@@ -101,46 +103,25 @@ const SlugsIndexPage = ({ baseUrl, errors: errorsDefault, loading, slugs }) => {
 	);
 };
 
-SlugsIndexPage.getInitialProps = async ({ req, query }) => {
-	if (req) {
-		return {
-			baseUrl: query.baseUrl,
-			loading: false,
-			slugs: query.slug ? [query.slug] : query.slugs
-		};
-	}
-
-	if (query.slugCode) {
-		const { baseUrl, slug } = await fetchAuthenticated(
-			'GET',
-			`/s/${query.slugCode}`
-		);
-
-		return {
-			baseUrl,
-			loading: false,
-			slugs: [slug]
-		};
-	} else {
-		const { baseUrl, slugs } = await fetchAuthenticated('GET', '/s');
-
-		return {
-			baseUrl,
-			loading: false,
-			slugs
-		};
-	}
-};
+SlugsIndexPage.getInitialProps = API.buildGetInitialProps();
 
 SlugsIndexPage.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
+	code: PropTypes.string.isRequired,
+	customize: PropTypes.bool.isRequired,
 	errors: PropTypes.shape({}).isRequired,
-	loading: PropTypes.bool,
+	routes: PropTypes.shape({
+		slugCreate: PropTypes.shape({
+			action: PropTypes.string.isRequired,
+			method: PropTypes.oneOf(METHODS).isRequired
+		}).isRequired
+	}).isRequired,
 	slugs: PropTypes.arrayOf(PropTypes.shape({
 		code: PropTypes.string.isRequired,
 		id: PropTypes.string.isRequired,
 		url: PropTypes.string.isRequired
-	})).isRequired
+	})).isRequired,
+	url: PropTypes.string.isRequired
 };
 
 export default SlugsIndexPage;

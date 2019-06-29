@@ -30,6 +30,7 @@
     "dotenv": "^7.x.x",
     "emotion": "^9.x.x",
     "emotion-server": "^9.x.x",
+    "es6-url-template": "^1.x.x",
     "esm": "^3.x.x",
     "express": "^4.x.x",
     "express-jwt": "^5.x.x",

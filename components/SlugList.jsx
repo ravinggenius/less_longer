@@ -27,7 +27,7 @@ const SlugsList = ({ baseUrl, slugs }) => slugs.length ? (
 	<UL>
 		{slugs.map(({ id, code, url }) => (
 			<LI key={id}>
-				<Link as={`/s/${code}`} href={`/s?slugCode=${code}`} passHref>
+				<Link href={{ pathname: `/s/${code}` }} passHref>
 					<Code>/s/{code}</Code>
 				</Link>
 
