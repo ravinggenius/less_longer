@@ -19,7 +19,7 @@ const app = nextjs({
 	conf: {
 		useFileSystemPublicRoutes: false
 	},
-	dev: config.nodeEnv !== 'production'
+	dev: config.isDev
 });
 
 const handle = app.getRequestHandler();
