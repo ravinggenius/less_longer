@@ -1,44 +1,59 @@
 import PropTypes from 'prop-types';
-import { withRouter } from 'next/router';
+import Router from 'next/router';
 import React, { useState } from 'react';
 
-import { fetchAuthenticatedBody, setToken } from '../../client/browser';
+import * as API from '../../client/api';
 import Button from '../../components/form/Button';
-import Form from '../../components/form/Form';
+import Form, { METHODS } from '../../components/form/Form';
 import Input from '../../components/form/Input';
 import Layout from '../../components/layouts/LinearLayout';
 
-const LoginPage = ({ action, error: errorDefault, resume, router, username: usernameDefault }) => {
-	const [error, setError] = useState(errorDefault);
+const LoginPage = ({
+	errors: errorsInitial,
+	routes,
+	username: usernameInitial
+}) => {
+	const [errors, setErrors] = useState(errorsInitial);
 
-	const [username, setUsername] = useState(usernameDefault || '');
+	const [username, setUsername] = useState(usernameInitial);
 	const [password, setPassword] = useState('');
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		try {
-			const { data } = await fetchAuthenticatedBody('POST', action, {
-				password,
-				username
+		const {
+			action,
+			dataset: { intendedMethod: method }
+		} = event.target;
+
+		const response = await API.fetchJson({
+			method,
+			action
+		}, {
+				username,
+				password
 			});
 
-			setToken(data.token);
+		if (response.ok) {
+			const { token } = await response.json();
 
-			router.replace(resume);
-		} catch ({ error }) {
-			setError(error);
+			API.setToken(token);
+
+			Router.push(response.headers.get('Location'));
+		} else {
+			setErrors(errors);
 		}
 	};
 
 	return (
 		<Layout title="Login">
 			<Form
-				{...{ action, error }}
-				method="post"
+				errors={errors.base}
 				onSubmit={handleSubmit}
+				route={API.expandRoute(routes.loginCreate)}
 			>
 				<Input
+					errors={errors.username}
 					label="Username"
 					name="username"
 					onChange={({ target: { value } }) => setUsername(value)}
@@ -46,6 +61,7 @@ const LoginPage = ({ action, error: errorDefault, resume, router, username: user
 				/>
 
 				<Input
+					errors={errors.password}
 					label="Password"
 					name="password"
 					onChange={({ target: { value } }) => setPassword(value)}
@@ -59,15 +75,17 @@ const LoginPage = ({ action, error: errorDefault, resume, router, username: user
 	);
 };
 
-LoginPage.getInitialProps = ({ query }) => ({
-	action: query.resume ? '/l' : `/l?resume=${query.resume}`,
-	...query
-});
+LoginPage.getInitialProps = API.buildGetInitialProps();
 
 LoginPage.propTypes = {
-	resume: PropTypes.string.isRequired,
-	router: PropTypes.shape({}).isRequired,
+	errors: PropTypes.shape({}).isRequired,
+	routes: PropTypes.shape({
+		loginCreate: PropTypes.shape({
+			action: PropTypes.string.isRequired,
+			method: PropTypes.oneOf(METHODS).isRequired
+		}).isRequired
+	}).isRequired,
 	username: PropTypes.string
 };
 
-export default withRouter(LoginPage);
+export default LoginPage;

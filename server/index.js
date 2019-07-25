@@ -3,15 +3,13 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import listRoutes from 'express-list-endpoints';
 import helmet from 'helmet';
+import methodOverride from 'method-override';
 import nextjs from 'next';
 
 import config from './config';
-import expanderRoutes from './routes/expander';
 import rootLogger from './logger';
 import roarr from './logger/middleware'
-import loginRoutes from './routes/logins';
-import slugRoutes from './routes/slugs';
-import userRoutes from './routes/users';
+import buildRoutes from './routes';
 
 const logger = rootLogger.child({
 	namespace: 'server'
@@ -31,18 +29,11 @@ app.prepare().then(() => {
 
 	server.use(helmet());
 
-	server.use(roarr({
-		level: (req) => req.originalUrl.startsWith('/_next') ? 'trace' : 'info',
-		logger: rootLogger.child({
-			namespace: 'server:routes'
-		})
-	}));
-
-	server.get('/', (req, res) => res.redirect('/s'));
-
-	server.use(expanderRoutes(app));
-
-	server.use(cookieParser(config.cookieSecret));
+	server.use((req, res, next) => (
+		(req.url === '/favicon.ico')
+			? res.sendStatus(204)
+			: next()
+	));
 
 	server.use(bodyParser.json({
 		strict: true
@@ -52,9 +43,37 @@ app.prepare().then(() => {
 		extended: true
 	}));
 
-	server.use(loginRoutes(app));
-	server.use(slugRoutes(app));
-	server.use(userRoutes(app));
+	server.use(methodOverride('X-HTTP-Method'));
+	server.use(methodOverride('X-HTTP-Method-Override'));
+	server.use(methodOverride('X-Method-Override'));
+	server.use(methodOverride((req) => {
+		const { _method: intentedMethod } = req.body;
+
+		delete req.body._method;
+
+		return intentedMethod;
+	}));
+
+	server.use(roarr({
+		level: (req) => {
+			if (req.originalUrl.startsWith('/_next')) {
+				return 'trace';
+			}
+
+			if (req.headers.accept.includes('image')) {
+				return 'trace';
+			}
+
+			return 'info';
+		},
+		logger: rootLogger.child({
+			namespace: 'server:routes'
+		})
+	}));
+
+	server.use(cookieParser(config.cookieSecret));
+
+	server.use(buildRoutes(app));
 
 	server.get('*', handle);
 

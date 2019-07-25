@@ -1,9 +1,9 @@
 import express from 'express';
 
-import { routes as expanderRoutes } from './expander';
-import { routes as loginRoutes } from './logins';
-import { routes as slugRoutes } from './slugs';
-import { routes as userRoutes } from './users';
+import expanderRoutes from './expander';
+import loginRoutes from './logins';
+import slugRoutes from './slugs';
+import userRoutes from './users';
 
 export default (app) => {
 	const router = express.Router();
