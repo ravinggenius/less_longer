@@ -13,7 +13,6 @@ const logger = rootLogger.child({
 const sql = loadQueries('models/user/queries');
 
 const USERNAME_PATTERN = /^[0-9A-Za-z_]+$/;
-const PASSWORD_MIN_LENGTH = 12;
 
 const validate = (username, password, passwordConfirmation) => {
 	const errors = new KeyedErrors();
@@ -22,8 +21,8 @@ const validate = (username, password, passwordConfirmation) => {
 		errors.add('username', 'Username must only contain letters, numbers or underscore');
 	}
 
-	if (password.length < PASSWORD_MIN_LENGTH) {
-		errors.add('password', `Password must be at least ${PASSWORD_MIN_LENGTH} characters long`);
+	if (password.length < config.passwordMinLength) {
+		errors.add('password', `Password must be at least ${config.passwordMinLength} characters long`);
 	}
 
 	if (password !== passwordConfirmation) {

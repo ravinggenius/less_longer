@@ -25,6 +25,8 @@ export default configure(process.env, {
 
 	nodeEnv: configString('development'),
 
+	passwordMinLength: configInteger('12'),
+
 	port: configInteger('3000'),
 
 	slugCodeMinLength: {
