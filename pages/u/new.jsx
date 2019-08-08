@@ -91,7 +91,12 @@ const UserNewPage = ({
 UserNewPage.getInitialProps = API.buildGetInitialProps();
 
 UserNewPage.propTypes = {
-	errors: PropTypes.shape({}).isRequired,
+	errors: PropTypes.shape({
+		base: PropTypes.arrayOf(PropTypes.string.isRequired),
+		username: PropTypes.arrayOf(PropTypes.string.isRequired),
+		password: PropTypes.arrayOf(PropTypes.string.isRequired),
+		passwordConfirmation: PropTypes.arrayOf(PropTypes.string.isRequired),
+	}).isRequired,
 	routes: PropTypes.shape({
 		userCreate: PropTypes.shape({
 			action: PropTypes.string.isRequired,

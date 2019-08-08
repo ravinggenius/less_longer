@@ -109,7 +109,11 @@ SlugsIndexPage.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
 	code: PropTypes.string.isRequired,
 	customize: PropTypes.bool.isRequired,
-	errors: PropTypes.shape({}).isRequired,
+	errors: PropTypes.shape({
+		base: PropTypes.arrayOf(PropTypes.string.isRequired),
+		code: PropTypes.arrayOf(PropTypes.string.isRequired),
+		url: PropTypes.arrayOf(PropTypes.string.isRequired)
+	}).isRequired,
 	routes: PropTypes.shape({
 		slugCreate: PropTypes.shape({
 			action: PropTypes.string.isRequired,
