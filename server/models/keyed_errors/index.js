@@ -39,7 +39,7 @@ class KeyedErrors extends Error {
 		const after = {
 			...before,
 			[key]: [
-				...before[key],
+				...(before[key] || []),
 				message
 			]
 		};

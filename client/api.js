@@ -27,7 +27,7 @@ export const fetchJson = (route, payload = null, options = {}) => {
 		redirect: 'follow',
 		...body,
 		...options
-	})
+	});
 };
 
 export const fetchJsonForPage = async (pathname) => {
@@ -42,3 +42,15 @@ export const fetchJsonForPage = async (pathname) => {
 export const buildGetInitialProps = () => ({ asPath, query, req }) => req
 	? query
 	: fetchJsonForPage(asPath);
+
+export const submitForm = async (form, payload = null) => {
+	const {
+		action,
+		dataset: { intendedMethod: method }
+	} = form;
+
+	return fetchJson({
+		method,
+		action
+	}, payload);
+};

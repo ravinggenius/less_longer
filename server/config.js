@@ -1,4 +1,4 @@
-import { configBoolean, configInteger, configString, configure } from 'conf_conf';
+import { configBoolean, configDynamic, configInteger, configString, configure } from 'conf_conf';
 import dotenv from 'dotenv';
 
 dotenv.config({
@@ -19,9 +19,13 @@ export default configure(process.env, {
 
 	hashStrength: configInteger('12'),
 
+	isDev: configDynamic(env => env.NODE_ENV !== 'production'),
+
 	jwtSecret: configString('replace for production'),
 
 	nodeEnv: configString('development'),
+
+	passwordMinLength: configInteger('12'),
 
 	port: configInteger('3000'),
 

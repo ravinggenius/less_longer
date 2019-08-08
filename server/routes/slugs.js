@@ -76,7 +76,7 @@ export default (app) => {
 			};
 
 			res.format({
-				html: () => app.status(400).render(req, res, '/s', query),
+				html: () => app.render(req, res.status(400), '/s', query),
 				json: () => res.status(400).json(query)
 			});
 		}

@@ -73,9 +73,7 @@ export default (app) => {
 			const location = resume;
 
 			const query = {
-				data: {
-					token
-				}
+				token
 			};
 
 			res.format({
