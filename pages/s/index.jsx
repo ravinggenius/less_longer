@@ -36,24 +36,18 @@ const SlugsIndexPage = ({
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		const {
-			action,
-			dataset: { intendedMethod: method }
-		} = event.target;
-
-		const response = await API.fetchJson({
-			method,
-			action
-		}, {
-				code,
-				customize,
-				url
-			});
+		const response = await API.submitForm(event.target, {
+			code,
+			customize,
+			url
+		});
 
 		if (response.ok) {
 			Router.push(response.headers.get('Location'));
 		} else {
-			setErrors(errors);
+			const body = await response.json();
+
+			setErrors(body.errors);
 		}
 	};
 

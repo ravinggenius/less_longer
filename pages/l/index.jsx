@@ -21,27 +21,19 @@ const LoginPage = ({
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		const {
-			action,
-			dataset: { intendedMethod: method }
-		} = event.target;
+		const response = await API.submitForm(event.target, {
+			username,
+			password
+		});
 
-		const response = await API.fetchJson({
-			method,
-			action
-		}, {
-				username,
-				password
-			});
+		const body = await response.json();
 
 		if (response.ok) {
-			const { token } = await response.json();
-
-			API.setToken(token);
+			API.setToken(body.token);
 
 			Router.push(response.headers.get('Location'));
 		} else {
-			setErrors(errors);
+			setErrors(body.errors);
 		}
 	};
 

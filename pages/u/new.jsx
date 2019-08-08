@@ -22,30 +22,20 @@ const UserNewPage = ({
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		const {
-			action,
-			dataset: { intendedMethod: method }
-		} = event.target;
+		const response = await API.submitForm(event.target, {
+			password,
+			passwordConfirmation,
+			username
+		});
 
-		const response = await API.fetchJson({
-			method,
-			action
-		}, {}, {
-				password,
-				passwordConfirmation,
-				username
-			});
+		const body = await response.json();
 
 		if (response.ok) {
-			const { data } = await response.json();
-
-			API.setToken(data.token);
+			API.setToken(body.token);
 
 			Router.push(response.headers.get('Location'));
 		} else {
-			const { errors } = await response.json();
-
-			setErrors(errors);
+			setErrors(body.errors);
 		}
 	}
 
