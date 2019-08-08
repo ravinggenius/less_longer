@@ -27,7 +27,7 @@ export const fetchJson = (route, payload = null, options = {}) => {
 		redirect: 'follow',
 		...body,
 		...options
-	})
+	});
 };
 
 export const fetchJsonForPage = async (pathname) => {
