@@ -17,6 +17,10 @@ const USERNAME_PATTERN = /^[0-9A-Za-z_]+$/;
 const validate = (username, password, passwordConfirmation) => {
 	const errors = new KeyedErrors();
 
+	if (!username) {
+		errors.add('username', 'Username is required');
+	}
+
 	if (!USERNAME_PATTERN.test(username)) {
 		errors.add('username', 'Username must only contain letters, numbers or underscore');
 	}
