@@ -36,7 +36,7 @@
     "express-jwt-permissions": "^1.x.x",
     "express-list-endpoints": "^4.x.x",
     "helmet": "^3.x.x",
-    "jsonwebtoken": "^8.x.x",
+    "jsonwebtoken": "^9.x.x",
     "nanoid": "^2.x.x",
     "next": "^8.x.x",
     "pg": "^7.x.x",
